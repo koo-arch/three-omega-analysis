@@ -1,0 +1,11 @@
+{% block subject %} 
+本登録のご案内
+{% endblock subject %}
+
+{% block text_body %}
+{{ username }}様
+
+アカウント仮登録を受け付けました。
+以下のリンクから本登録を完了してください
+{{ frontend }}/{{ url|safe }}
+{% endblock text_body %}

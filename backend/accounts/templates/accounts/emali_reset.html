@@ -1,0 +1,10 @@
+{% block subject %}
+メールアドレス変更
+{% endblock subject %}
+
+{% block text_body %}
+{{ username }}様
+メールアドレス変更のリクエストが行われました。
+以下のリンクから再設定を行ってください。
+{{ frontend }}/{{ url }}
+{% endblock text_body %}
