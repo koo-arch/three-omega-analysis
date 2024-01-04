@@ -6,7 +6,7 @@ from rest_framework.response import Response
 class FileProcessingView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, *args, **kwargs):
-        files = request.FILES.getlist('file')
+        files = request.FILES.getlist('files')
 
         files_columns_data = {}
 
