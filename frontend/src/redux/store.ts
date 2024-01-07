@@ -14,11 +14,13 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from './authSlice';
 import snackbarReducer from './snackbarSlice';
 import postFlagReducer from './postFlagSlice';
+import uploadedDataReducer from './uploadedDataSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     snackbar: snackbarReducer,
     postFlag: postFlagReducer,
+    uploadedData: uploadedDataReducer,
 });
 
 const persistConfig = {

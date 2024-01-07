@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/snackbarSlice';
+import { setUploadedData } from '../../redux/uploadedDataSlice';
 import { setPostFlag } from '../../redux/postFlagSlice';
 import CustomSnackbar from '../../components/customSnackbar';
 import { useDropzone, DropzoneRootProps } from 'react-dropzone';
@@ -53,6 +54,7 @@ const UploadText: React.FC = () => {
                 severity: 'success',
                 message: 'アップロードに成功しました。'
             }));
+            dispatch(setUploadedData(response.data));
         }
         catch (error) {
             console.log(error);
