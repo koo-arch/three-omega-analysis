@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, ReferenceLine } from 'recharts';
+import { CategoricalChartState } from 'recharts/types/chart/generateCategoricalChart';
 
 interface DataPoint {
     "V3omega(V)": number;
@@ -14,9 +15,13 @@ interface GraphProps {
 const Graph: React.FC<GraphProps> = ({ data }) => {
     const [selectedPoints, setSelectedPoints] = useState<number[]>([]);
 
-    const handlePointClick = (index: number) => {
-        if (selectedPoints.length < 2) {
-            setSelectedPoints([...selectedPoints, index]);
+    const handlePointClick = (e: CategoricalChartState) => {
+        if (e && e.activeTooltipIndex && selectedPoints.length >= 0 && selectedPoints.length < 2) {
+            setSelectedPoints([...selectedPoints, e.activeTooltipIndex]);
+        } else if (e && selectedPoints.some(point => point === e.activeTooltipIndex)) {
+            setSelectedPoints(selectedPoints.filter(point => point !== e.activeTooltipIndex));
+        } else if (e && e.activeTooltipIndex && selectedPoints.length === 2) {
+            setSelectedPoints([...selectedPoints.slice(1), e.activeTooltipIndex]);
         }
     }
 
@@ -38,12 +43,7 @@ const Graph: React.FC<GraphProps> = ({ data }) => {
                         left: 20,
                         bottom: 5,
                     }}
-                    onClick={(e) => {
-                        if (e && e.activeTooltipIndex && selectedPoints.length >= 0 && selectedPoints.length < 2) {
-                            console.log("Clicked Point:", e.activeTooltipIndex);
-                            handlePointClick(e.activeTooltipIndex);
-                        }
-                    }}
+                    onClick={handlePointClick}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="Heater_Freq(Hz)" scale="log">
@@ -56,6 +56,12 @@ const Graph: React.FC<GraphProps> = ({ data }) => {
                     <Legend />
                     <Line type="monotone" dataKey="V3omega(V)" stroke="#8884d8" activeDot={{ r: 8 }} />
                     <Line type="monotone" dataKey="ImV3omega(V)" stroke="#82ca9d" />
+                    {selectedPoints.map((point, index) => {
+                        return (
+                            <ReferenceLine key={index} x={data[point]["Heater_Freq(Hz)"]} stroke="red" />
+                        )
+                    
+                    })}
                 </LineChart>
             </ResponsiveContainer>
         </div>
