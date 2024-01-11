@@ -5,6 +5,7 @@ import { setSnackbar } from '../../redux/snackbarSlice';
 import { setUploadedData } from '../../redux/uploadedDataSlice';
 import { setPostFlag } from '../../redux/postFlagSlice';
 import CustomSnackbar from '../../components/customSnackbar';
+import urls from '../../api/urls';
 import { useDropzone, DropzoneRootProps } from 'react-dropzone';
 import {
     Box,
@@ -33,7 +34,7 @@ const UploadText: React.FC = () => {
     }
 
     const uploadFiles = async (files: FormData) => {
-        return await authAxios.post('/analysis/upload/', files, {
+        return await authAxios.post(urls.Upload, files, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

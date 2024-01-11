@@ -1,5 +1,8 @@
 const urls = {
 
+    // analysis
+    Upload: `/graph/upload/`,
+
     // djoser
     Register: `/auth/users/`,
     Activation: `/auth/users/activation/`,
