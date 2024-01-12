@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import UploadText from './uploadText';
 import Graph from './graph';
 
-const SelectPoint: React.FC = () => {
+const CreateGraph: React.FC = () => {
     const uploadedData = useAppSelector(state => state.uploadedData.data);
     
     return (
@@ -20,4 +20,4 @@ const SelectPoint: React.FC = () => {
     )
 }
 
-export default SelectPoint;
+export default CreateGraph;
