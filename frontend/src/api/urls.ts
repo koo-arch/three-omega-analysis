@@ -1,6 +1,8 @@
 const urls = {
 
     // analysis
+    Setting: `/analysis/setting/`,
+    History: `/analysis/history/`,
     Upload: `/graph/upload/`,
 
     // djoser

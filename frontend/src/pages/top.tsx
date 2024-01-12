@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
 import { setSnackbar } from '../redux/snackbarSlice';
 import CustomSnackbar from '../components/customSnackbar';
-import SelectPoint from '../features/analysis/selectPoint';
+import SelectPoint from '../features/graph/selectPoint';
 import { Box, Container, Typography, Button } from '@mui/material';
 
 const Top: React.FC = () => {
