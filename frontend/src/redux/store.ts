@@ -15,12 +15,14 @@ import authReducer from './authSlice';
 import snackbarReducer from './snackbarSlice';
 import postFlagReducer from './postFlagSlice';
 import uploadedDataReducer from './uploadedDataSlice';
+import settingReducer from './settingSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     snackbar: snackbarReducer,
     postFlag: postFlagReducer,
     uploadedData: uploadedDataReducer,
+    setting: settingReducer,
 });
 
 const persistConfig = {
