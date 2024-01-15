@@ -43,8 +43,8 @@ const Login: React.FC = () => {
         clearErrors();
         postLogin(data)
             .then(res => {
-                setCookie('accesstoken', res.data.access, { path: '/', httpOnly: true });
-                setCookie('refreshtoken', res.data.refresh, { path: '/', httpOnly: true });
+                setCookie('accesstoken', res.data.access, { path: '/' });
+                setCookie('refreshtoken', res.data.refresh, { path: '/' });
                 navigation('/');
             })
             .catch(err => {

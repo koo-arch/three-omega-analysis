@@ -3,11 +3,12 @@ import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
 import DropdownSelect from '../../components/dropdownSelect';
 import { TextField, Grid, FormControl } from '@mui/material';
+import { log } from 'console';
 
 const Setting: React.FC = () => {
     useFetchSetting();
 
-    const setting = useAppSelector(state => state.setting.data?.items);
+    const setting = useAppSelector(state => state.setting.data);
     const names = [...new Set(setting?.map(item => item.name))];
     const [selectedName, setSelectedName] = useState<string>("");
     const selectedObj = setting?.find(item => item.name === selectedName);
@@ -37,7 +38,7 @@ const Setting: React.FC = () => {
                         fullWidth
                         label="dRdT"
                         margin='normal'
-                        value={selectedObj?.dRdT}
+                        value={selectedObj?.dRdT || ""}
                         error={false}
                         helperText=""
                     />
@@ -47,7 +48,7 @@ const Setting: React.FC = () => {
                         fullWidth
                         label="金線長さ"
                         margin='normal'
-                        value={selectedObj?.length}
+                        value={selectedObj?.length || ""}
                         error={false}
                         helperText=""
                     />

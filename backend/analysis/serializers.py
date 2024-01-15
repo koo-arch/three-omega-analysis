@@ -8,7 +8,7 @@ class SettingSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
-        models = Setting
+        model = Setting
         fields = "__all__"
 
     def validate(self, attrs):
@@ -20,7 +20,7 @@ class HistorySerializer(serializers.ModelSerializer):
     settings = serializers.PrimaryKeyRelatedField(queryset=Setting.objects.all())
 
     class Meta:
-        models = History
+        model = History
         fields = "__all__"
 
     def validate(self, attrs):

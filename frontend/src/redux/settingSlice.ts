@@ -2,14 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SettingState {
     isLoading: boolean;
-    data: Setting | null;
+    data: Setting[];
 }
 
 interface Setting {
-    items: SettingData[];
-}
-
-interface SettingData {
+    id: number;
     name: string;
     dRdT: number;
     length: number;
@@ -17,14 +14,14 @@ interface SettingData {
 
 const initialState: SettingState = {
     isLoading: true,
-    data: null,
+    data: [],
 };
 
 const settingSlice = createSlice({
     name: 'setting',
     initialState,
     reducers: {
-        fetchSettingSuccess: (state, action: PayloadAction<Setting>) => {
+        fetchSettingSuccess: (state, action: PayloadAction<Setting[]>) => {
             state.isLoading = false;
             state.data = action.payload;
         },
