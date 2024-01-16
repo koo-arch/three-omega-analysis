@@ -3,7 +3,6 @@ import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
 import DropdownSelect from '../../components/dropdownSelect';
 import { TextField, Grid, FormControl } from '@mui/material';
-import { log } from 'console';
 
 const Setting: React.FC = () => {
     useFetchSetting();

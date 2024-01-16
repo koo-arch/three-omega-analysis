@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
+import { updateSelectedPoints } from '../../redux/selectedPointsSlice';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, ReferenceLine } from 'recharts';
 import { CategoricalChartState } from 'recharts/types/chart/generateCategoricalChart';
 
@@ -10,19 +12,28 @@ interface DataPoint {
 
 interface GraphProps {
     data: DataPoint[];
+    graphName: string;
 }
 
-const Graph: React.FC<GraphProps> = ({ data }) => {
-    const [selectedPoints, setSelectedPoints] = useState<number[]>([]);
+const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
+    const dispatch = useAppDispatch();
+    const globalSelectedPoints = useAppSelector(state => state.selectedPoints[graphName] || []);
+    const [selectedPoints, setSelectedPointsLocal] = useState<number[]>(globalSelectedPoints);
+
+    useEffect(() => {
+        if (globalSelectedPoints !== selectedPoints) {
+            dispatch(updateSelectedPoints({ graphName, points: selectedPoints }));
+        }
+    },[selectedPoints, dispatch, graphName])
+
+    console.log(globalSelectedPoints)
 
     const handlePointClick = (e: CategoricalChartState) => {
-        if (e && e.activeTooltipIndex && selectedPoints.length >= 0 && selectedPoints.length < 2) {
-            setSelectedPoints([...selectedPoints, e.activeTooltipIndex]);
-        } else if (e && selectedPoints.some(point => point === e.activeTooltipIndex)) {
-            setSelectedPoints(selectedPoints.filter(point => point !== e.activeTooltipIndex));
-        } else if (e && e.activeTooltipIndex && selectedPoints.length === 2) {
-            setSelectedPoints([...selectedPoints.slice(1), e.activeTooltipIndex]);
-        }
+        if (e && selectedPoints.some(point => point === e.activeTooltipIndex)) {
+            setSelectedPointsLocal(selectedPoints.filter(point => point !== e.activeTooltipIndex));
+        } else if (e && e.activeTooltipIndex && selectedPoints.length >= 0 && selectedPoints.length < 2) {
+            setSelectedPointsLocal([...selectedPoints, e.activeTooltipIndex]);
+        } 
     }
 
     const maxYValue = Math.max(
