@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { createSelector } from 'reselect';
+import { RootState } from '../../redux/store';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
 import { updateSelectedPoints } from '../../redux/selectedPointsSlice';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, ReferenceLine } from 'recharts';
@@ -15,9 +17,14 @@ interface GraphProps {
     graphName: string;
 }
 
+const selectGlobalPoints = (graphName: string) => createSelector(
+    (state: RootState) => state.selectedPoints,
+    (selectedPoints) => selectedPoints[graphName] || []
+);
+
 const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
     const dispatch = useAppDispatch();
-    const globalSelectedPoints = useAppSelector(state => state.selectedPoints[graphName] || []);
+    const globalSelectedPoints = useAppSelector(selectGlobalPoints(graphName));
     const [selectedPoints, setSelectedPointsLocal] = useState<number[]>(globalSelectedPoints);
 
     useEffect(() => {
@@ -29,13 +36,20 @@ const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
     console.log(globalSelectedPoints)
 
     const handlePointClick = (e: CategoricalChartState) => {
-        if (e && selectedPoints.some(point => point === e.activeTooltipIndex)) {
-            setSelectedPointsLocal(selectedPoints.filter(point => point !== e.activeTooltipIndex));
-        } else if (e && e.activeTooltipIndex && selectedPoints.length >= 0 && selectedPoints.length < 2) {
-            setSelectedPointsLocal([...selectedPoints, e.activeTooltipIndex]);
-        } 
-    }
+        if (e && e.activeTooltipIndex) {
+            if (selectedPoints.includes(e.activeTooltipIndex)) {
+                // 既に選択されている点を削除
+                setSelectedPointsLocal(selectedPoints.filter(point => point !== e.activeTooltipIndex));
+            } else if (selectedPoints.length < 2) {
+                // 新しい点を追加し、昇順でソート
+                const newSelectedPoints = [...selectedPoints, e.activeTooltipIndex];
+                newSelectedPoints.sort((a, b) => a - b);
+                setSelectedPointsLocal(newSelectedPoints);
+            }
+        }
+    };
 
+    // グラフのy軸の最大値と最小値を設定
     const maxYValue = Math.max(
         ...data.map(d => Math.max(d["V3omega(V)"], d["ImV3omega(V)"]))
     );
