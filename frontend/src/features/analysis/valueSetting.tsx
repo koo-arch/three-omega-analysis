@@ -4,7 +4,7 @@ import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
 import DropdownSelect from '../../components/dropdownSelect';
 import { TextField, Grid, FormControl } from '@mui/material';
 
-const Setting: React.FC = () => {
+const ValueSetting: React.FC = () => {
     useFetchSetting();
 
     const setting = useAppSelector(state => state.setting.data);
@@ -57,4 +57,4 @@ const Setting: React.FC = () => {
     )
 }
 
-export default Setting;
+export default ValueSetting;
