@@ -7,6 +7,7 @@ import { TextField, Grid, FormControl } from '@mui/material';
 const ValueSetting: React.FC = () => {
     useFetchSetting();
 
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
     const setting = useAppSelector(state => state.setting.data);
     const names = [...new Set(setting?.map(item => item.name))];
     const [selectedName, setSelectedName] = useState<string>("");
@@ -18,19 +19,21 @@ const ValueSetting: React.FC = () => {
     
     return (
         <div>
-            <FormControl
-                fullWidth
-                margin='normal'
-            >
-                <DropdownSelect
-                    label="設定"
-                    value={selectedName}
-                    onChange={handleChange}
-                    items={names}
-                    error={false}
-                    helperText=""
-                />
-            </FormControl>
+            {isAuthenticated &&
+                <FormControl
+                    fullWidth
+                    margin='normal'
+                >
+                    <DropdownSelect
+                        label="設定"
+                        value={selectedName}
+                        onChange={handleChange}
+                        items={names}
+                        error={false}
+                        helperText=""
+                    />
+                </FormControl>
+            }
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs>
                     <TextField
