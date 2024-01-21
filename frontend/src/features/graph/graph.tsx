@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { FormValues } from '../../pages/top';
 import { createSelector } from 'reselect';
 import { RootState } from '../../redux/store';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
@@ -27,11 +29,14 @@ const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
     const globalSelectedPoints = useAppSelector(selectGlobalPoints(graphName));
     const [selectedPoints, setSelectedPointsLocal] = useState<number[]>(globalSelectedPoints);
 
+    const { setValue } = useFormContext<FormValues>();
+
     useEffect(() => {
         if (globalSelectedPoints !== selectedPoints) {
             dispatch(updateSelectedPoints({ graphName, points: selectedPoints }));
         }
-    },[selectedPoints, dispatch, graphName])
+        setValue(`graphs.${graphName}`, selectedPoints)
+    },[selectedPoints, dispatch, graphName, setValue])
 
     console.log(globalSelectedPoints)
 
