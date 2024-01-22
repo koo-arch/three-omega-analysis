@@ -15,7 +15,6 @@ import authReducer from './authSlice';
 import snackbarReducer from './snackbarSlice';
 import postFlagReducer from './postFlagSlice';
 import uploadedDataReducer from './uploadedDataSlice';
-import selectedPointsReducer from './selectedPointsSlice';
 import settingReducer from './settingSlice';
 
 const rootReducer = combineReducers({
@@ -23,7 +22,6 @@ const rootReducer = combineReducers({
     snackbar: snackbarReducer,
     postFlag: postFlagReducer,
     uploadedData: uploadedDataReducer,
-    selectedPoints: selectedPointsReducer,
     setting: settingReducer,
 });
 

@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/snackbarSlice';
 import { setUploadedData } from '../../redux/uploadedDataSlice';
 import { setPostFlag } from '../../redux/postFlagSlice';
-import CustomSnackbar from '../../components/customSnackbar';
 import urls from '../../api/urls';
 import { useDropzone, DropzoneRootProps } from 'react-dropzone';
 import {

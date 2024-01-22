@@ -8,8 +8,13 @@ import Configuration from '../features/analysis/configuration';
 import CreateGraph from '../features/graph/createGraph';
 import { Box, Container, Typography, Button } from '@mui/material';
 
+export interface SelectedPoints {
+    start: number | undefined;
+    end: number | undefined;
+}
+
 interface GraphValues {
-    [graphName: string]: number[];
+    [graphName: string]: SelectedPoints;
 }
 
  export interface FormValues {
