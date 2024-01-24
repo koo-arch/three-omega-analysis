@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { Form, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
-import { setSnackbar } from '../redux/snackbarSlice';
+import { setSnackbar } from '../redux/slices/snackbarSlice';
 import CustomSnackbar from '../components/customSnackbar';
 import Configuration from '../features/analysis/configuration';
 import CreateGraph from '../features/graph/createGraph';

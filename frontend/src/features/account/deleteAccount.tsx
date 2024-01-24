@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/snackbarSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { useLogout } from '../../hooks/auth/useLogout';
 import urls from '../../api/urls';
 import FormDialog from '../../components/formDialog';

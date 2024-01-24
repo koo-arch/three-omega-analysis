@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomSnackbar from '../components/customSnackbar';
 import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
-import { setSnackbar } from '../redux/snackbarSlice';
+import { setSnackbar } from '../redux/slices/snackbarSlice';
 import axios from '../api/axios';
 import urls from '../api/urls';
 

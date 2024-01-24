@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAuthAxios } from '../auth/useAuthAxios';
 import { useAppDispatch } from '../redux/reduxHooks';
-import { setSnackbar } from '../../redux/snackbarSlice';
-import { fetchSettingSuccess } from '../../redux/settingSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
+import { fetchSettingSuccess } from '../../redux/slices/settingSlice';
 import urls from '../../api/urls';
 
 export const useFetchSetting = (): void => {

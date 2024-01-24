@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuthAxios } from '../hooks/auth/useAuthAxios';
 import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
-import { setSnackbar } from '../redux/snackbarSlice';
+import { setSnackbar } from '../redux/slices/snackbarSlice';
 import CustomSnackbar from '../components/customSnackbar';
 import urls from '../api/urls';
 import {

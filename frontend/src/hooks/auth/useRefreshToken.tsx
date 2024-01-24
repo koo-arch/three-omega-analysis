@@ -1,6 +1,6 @@
 import { useCookies } from 'react-cookie';
 import { useAppDispatch } from '../redux/reduxHooks';
-import { setSnackbar } from '../../redux/snackbarSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import axios from '../../api/axios';
 import urls from '../../api/urls';
 import { useLogout } from './useLogout';

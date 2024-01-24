@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/snackbarSlice';
-import { setUploadedData } from '../../redux/uploadedDataSlice';
-import { setPostFlag } from '../../redux/postFlagSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
+import { setUploadedData } from '../../redux/slices/uploadedDataSlice';
+import { setPostFlag } from '../../redux/slices/postFlagSlice';
 import urls from '../../api/urls';
 import { useDropzone, DropzoneRootProps } from 'react-dropzone';
 import {

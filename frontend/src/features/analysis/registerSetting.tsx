@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/snackbarSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import urls from '../../api/urls';
 import FormDialog from '../../components/formDialog';
 import { TextField, Button, Grid } from '@mui/material';
