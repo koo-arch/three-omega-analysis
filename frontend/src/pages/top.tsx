@@ -4,7 +4,7 @@ import { Form, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
 import { setSnackbar } from '../redux/slices/snackbarSlice';
 import CustomSnackbar from '../components/customSnackbar';
-import Configuration from '../features/analysis/configuration';
+import Configuration from '../features/setting/configuration';
 import CreateGraph from '../features/graph/createGraph';
 import { Box, Container, Typography, Button } from '@mui/material';
 
