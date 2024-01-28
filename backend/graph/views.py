@@ -6,6 +6,9 @@ from rest_framework.response import Response
 class FileProcessingView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
     def post(self, request, *args, **kwargs):
+        if 'file_data' in request.session:
+            del request.session['file_data']
+        
         files = request.FILES.getlist('files')
 
         files_columns_data = {}
@@ -24,7 +27,7 @@ class FileProcessingView(generics.CreateAPIView):
                     values = line.strip().split()
                     if len(values) > 1:
                         for i, column in enumerate(column_names):
-                            measurement_data_point[column] = values[i]
+                            measurement_data_point[column] = float(values[i])
                         measurement_data.append(measurement_data_point)
 
         
@@ -34,6 +37,10 @@ class FileProcessingView(generics.CreateAPIView):
                         column_names.append(column)
                     start_processing = True
 
-            files_columns_data[file.name] = measurement_data
+            file_name = file.name.split('.')[0]
+            files_columns_data[file_name] = measurement_data
+
+            request.session['file_data'] = files_columns_data
+
         
         return Response(files_columns_data)

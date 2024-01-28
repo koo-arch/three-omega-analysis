@@ -21,3 +21,15 @@ class HistoryView(generics.ListCreateAPIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+
+
+class AnalysisView(generics.ListCreateAPIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        file_data = request.session.get('file_data', None)
+        data = request.data
+
+        if file_data is None:
+            return Response({'error': 'No data in session'})
+        
