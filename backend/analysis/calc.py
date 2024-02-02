@@ -55,8 +55,8 @@ class ThermalConductivityCalculator:
         length = self.length
         current = self.current
         measurement_data = self.measurement_data
-        volt = self.volt_average(measurement_data)
-        registance = volt / current
+        volt = self.volt_average()
+        resistance = volt / current
 
         # ヒーター周波数の取得
         heater_freq_1 = measurement_data[start_point]["Heater_Freq(Hz)"]
@@ -70,7 +70,7 @@ class ThermalConductivityCalculator:
         slope = np.log(heater_freq_2 / heater_freq_1) / (v3omega_1 - v3omega_2)
 
         # 熱伝導率の計算
-        kappa = volt**3 / (4 * np.pi * length * registance**2) * slope * dRdT
+        kappa = volt**3 / (4 * np.pi * length * resistance**2) * slope * dRdT
 
         return kappa
 
@@ -80,7 +80,7 @@ class ThermalConductivityCalculator:
         length = self.length
         current = self.current
         measurement_data = self.measurement_data
-        volt = self._volt_average(measurement_data)
+        volt = self.volt_average()
 
         # 3ω電圧の取得
         Im_v3omega = np.abs(measurement_data[point]["ImV3omega(V)"])
@@ -89,22 +89,6 @@ class ThermalConductivityCalculator:
         Im_kappa = -(current**2) * volt / (8 * length * Im_v3omega) * dRdT
 
         return Im_kappa
-
-
-    def select_point(self, start_point, end_point):
-        start_points, end_points = [], []
-        for start, end in combinations(range(start_point, end_point + 1), 2):
-            if start > end:
-                start, end = end, start
-
-            if end - start < 3:
-                continue
-
-            start_points.append(start)
-            end_points.append(end)
-
-        return start_points, end_points
-
 
 
 class ThermalConductivityStats:
@@ -127,7 +111,28 @@ class ThermalConductivityStats:
         values = [func(point) for point in points]
         return np.average(values), np.std(values)
 
-    def average_and_std_of_kappa(self, start_points, end_points) -> tuple[float, float]:
+    def slope_points(self, start_point, end_point) -> tuple[list[int], list[int]]:
+        """
+        与えられた点のリストから、傾きを求めるための点の組み合わせを作成する。
+        start_point: 始点のインデックス。
+        end_point: 終点のインデックス。
+        戻り値: 始点と終点のインデックスのリスト。
+        """
+        start_points, end_points = [], []
+        for start, end in combinations(range(start_point, end_point + 1), 2):
+            if start > end:
+                start, end = end, start
+
+            if end - start < 3:
+                continue
+
+            start_points.append(start)
+            end_points.append(end)
+
+        return start_points, end_points
+
+    def average_and_std_of_kappa(self, start_point, end_point) -> tuple[float, float]:
+        start_points, end_points = self.slope_points(start_point, end_point)
         return self._calcurate_stats(
             points=zip(start_points, end_points),
             func=lambda pair: self.tc_calc.thermal_conductivity(*pair),
