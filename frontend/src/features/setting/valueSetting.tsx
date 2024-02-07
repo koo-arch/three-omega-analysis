@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { FormValues } from '../../pages/top';
+import { FormValues } from '../../features/analysis/analysis';
 import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
 import DropdownSelect from '../../components/dropdownSelect';
