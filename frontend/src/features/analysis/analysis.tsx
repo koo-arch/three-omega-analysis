@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import Configuration from '../setting/configuration';
 import CreateGraph from '../graph/createGraph';
+import urls from '../../api/urls';
 import { Button } from '@mui/material';
 
 
@@ -31,7 +32,7 @@ const Analysis : React.FC = () => {
     const dispatch = useAppDispatch();
 
     const postAnalysisData = async (data: FormValues) => {
-        return await authAxios.post('/analysis', data);
+        return await authAxios.post(urls.Analysis, data);
     }
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -40,7 +41,7 @@ const Analysis : React.FC = () => {
             .then(res => {
                 dispatch(setSnackbar({
                     open: true,
-                    message: res.data.message,
+                    message: "解析データを送信しました",
                     severity: "success"
                 }))
             
@@ -48,7 +49,7 @@ const Analysis : React.FC = () => {
             .catch(err => {
                 dispatch(setSnackbar({
                     open: true,
-                    message: err.response.data.message,
+                    message: err.response.data.error,
                     severity: "error"
                 }))
             })

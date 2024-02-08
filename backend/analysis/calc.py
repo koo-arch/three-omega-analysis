@@ -22,6 +22,7 @@ class MeasurementFileParser:
 
     def get_experiment_data(self) -> dict:
         experiment_data = {}
+        error_points = []
         for file_name in self.file_data:
             current, temperature = self._get_measurement_condition(file_name)
 
@@ -34,6 +35,12 @@ class MeasurementFileParser:
                 "start_point": self.data["graphs"][file_name]["start"],
                 "end_point": self.data["graphs"][file_name]["end"],
             }
+
+            if self.data["graphs"][file_name]["start"] is None or self.data["graphs"][file_name]["end"] is None:
+                error_points.append(file_name)
+        
+        if error_points:
+            raise Exception(f"Error: {error_points} is not defined")
 
         return experiment_data
 

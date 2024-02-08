@@ -1,5 +1,4 @@
-from rest_framework import generics
-from rest_framework import permissions
+from rest_framework import generics, permissions, status
 from .models import Setting, History
 from .serializers import SettingSerializer, HistorySerializer
 from django.http import HttpResponse
@@ -35,7 +34,7 @@ class AnalysisView(generics.ListCreateAPIView):
         data = request.data
 
         if file_data is None:
-            return Response({'error': 'No data in session'})
+            return Response({'error': 'No data in session'}, status=status.HTTP_400_BAD_REQUEST)
 
         # HTTPレスポンスを作成し、CSVファイルとして返す
         response = HttpResponse(content_type="text/csv; charset=utf-8")

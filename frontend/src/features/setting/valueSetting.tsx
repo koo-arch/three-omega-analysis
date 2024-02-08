@@ -54,6 +54,7 @@ const ValueSetting: React.FC = () => {
                 <Grid item xs>
                     <TextField
                         fullWidth
+                        required
                         label="dRdT"
                         margin='normal'
                         error={!!errors.dRdT}
@@ -71,6 +72,7 @@ const ValueSetting: React.FC = () => {
                 <Grid item xs>
                     <TextField
                         fullWidth
+                        required
                         label="長さ"
                         margin='normal'
                         error={!!errors.length}
