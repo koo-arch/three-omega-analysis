@@ -1,6 +1,8 @@
 from django.urls import path, include
-from .views import FileProcessingView
+from .views import SettingView, HistoryView, AnalysisView
 
 urlpatterns = [
-    path("analysis/upload/", FileProcessingView.as_view()),
+    path("analysis/", AnalysisView.as_view()),
+    path("analysis/setting/", SettingView.as_view()),
+    path("analysis/history/", HistoryView.as_view()),
 ]

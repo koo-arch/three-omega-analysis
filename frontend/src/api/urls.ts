@@ -1,5 +1,11 @@
 const urls = {
 
+    // analysis
+    Analysis: `/analysis/`,
+    Setting: `/analysis/setting/`,
+    History: `/analysis/history/`,
+    Upload: `/graph/upload/`,
+
     // djoser
     Register: `/auth/users/`,
     Activation: `/auth/users/activation/`,

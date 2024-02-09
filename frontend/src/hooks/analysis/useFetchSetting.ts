@@ -1,30 +1,23 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { useAuthAxios } from './useAuthAxios';
-import { useLogout } from './useLogout';
+import { useAuthAxios } from '../auth/useAuthAxios';
 import { useAppDispatch } from '../redux/reduxHooks';
-import { loginSuccess } from '../../redux/authSlice';
-import { setSnackbar } from '../../redux/snackbarSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
+import { fetchSettingSuccess } from '../../redux/slices/settingSlice';
 import urls from '../../api/urls';
 
-export const useFetchUserInfo = (): void => {
+export const useFetchSetting = (): void => {
     const [cookies, ] = useCookies(['accesstoken', 'refreshtoken']);
     const authAxios = useAuthAxios();
     const dispatch = useAppDispatch();
-    const logout = useLogout();
 
     useEffect(() => {
-        const fetchUserInfo = async () => {
+        const fetchSetting = async () => {
             try {
-                const response = await authAxios.get(urls.UserInfo);
-                dispatch(loginSuccess({
-                    id: response.data.id,
-                    username: response.data.username,
-                    email: response.data.email,
-                }));
+                const response = await authAxios.get(urls.Setting);
+                dispatch(fetchSettingSuccess(response.data));
             } catch (error) {
                 console.log(error);
-                logout();
                 dispatch(setSnackbar({
                     open: true,
                     severity: 'error',
@@ -33,7 +26,7 @@ export const useFetchUserInfo = (): void => {
             }
         }
         if (!!cookies.accesstoken) {
-            fetchUserInfo();
+            fetchSetting();
         }
-    },[cookies, dispatch])
+    },[dispatch])
 }

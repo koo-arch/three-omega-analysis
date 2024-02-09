@@ -11,14 +11,18 @@ import {
     REGISTER,
  } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import authReducer from './authSlice';
-import snackbarReducer from './snackbarSlice';
-import postFlagReducer from './postFlagSlice';
+import authReducer from './slices/authSlice';
+import snackbarReducer from './slices/snackbarSlice';
+import postFlagReducer from './slices/postFlagSlice';
+import uploadedDataReducer from './slices/uploadedDataSlice';
+import settingReducer from './slices/settingSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     snackbar: snackbarReducer,
     postFlag: postFlagReducer,
+    uploadedData: uploadedDataReducer,
+    setting: settingReducer,
 });
 
 const persistConfig = {

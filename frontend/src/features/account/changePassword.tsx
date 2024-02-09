@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import urls from '../../api/urls';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/snackbarSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import PasswordField from '../../components/passwordField';
 import { Container, Button, Divider, Typography } from '@mui/material';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';

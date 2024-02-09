@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "analysis.apps.AnalysisConfig",
+    "graph.apps.GraphConfig",
     "django_filters",
     "rest_framework",
     "corsheaders",

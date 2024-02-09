@@ -1,8 +1,8 @@
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../redux/reduxHooks';
-import { logoutSuccess } from '../../redux/authSlice';
-import { setSnackbar } from '../../redux/snackbarSlice';
+import { logoutSuccess } from '../../redux/slices/authSlice';
+import { setSnackbar } from '../../redux/slices/snackbarSlice';
 
 export const useLogout = ():() => void => {
     const navigation = useNavigate();
