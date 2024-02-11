@@ -6,6 +6,7 @@ import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import Configuration from '../setting/configuration';
 import CreateGraph from '../graph/createGraph';
 import urls from '../../api/urls';
+import { format } from 'date-fns';
 import { Button } from '@mui/material';
 
 
@@ -32,13 +33,21 @@ const Analysis : React.FC = () => {
     const dispatch = useAppDispatch();
 
     const postAnalysisData = async (data: FormValues) => {
-        return await authAxios.post(urls.Analysis, data);
+        return await authAxios.post(urls.Analysis, data, { responseType: 'blob' });
     }
+
+    const formatedDate = format(new Date(), "yyyyMMdd");
+    const fileName = `analysis_${formatedDate}.csv`;
 
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         clearErrors();
         postAnalysisData(data)
             .then(res => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
                 dispatch(setSnackbar({
                     open: true,
                     message: "解析データを送信しました",
@@ -49,7 +58,7 @@ const Analysis : React.FC = () => {
             .catch(err => {
                 dispatch(setSnackbar({
                     open: true,
-                    message: err.response.data.error,
+                    message: "解析データの送信に失敗しました",
                     severity: "error"
                 }))
             })

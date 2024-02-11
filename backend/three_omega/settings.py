@@ -68,6 +68,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+CORS_ALLOW_CREDENTIALS = True
+
 ROOT_URLCONF = "three_omega.urls"
 
 TEMPLATES = [
@@ -141,6 +145,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 FRONTEND_SERVER = os.environ.get("FRONTEND_SERVER")
 
 FRONTEND_URL = FRONTEND_SERVER + os.environ.get("FRONTEND_URL")
+
+SESSION_COOKIE_SAMESITE = "None"
+
+# セキュアなクッキーの使用を強制（HTTPS経由でのみクッキーを送信）
+SESSION_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = [FRONTEND_SERVER]
 
 CORS_ORIGIN_WHITELIST = [
     FRONTEND_SERVER,

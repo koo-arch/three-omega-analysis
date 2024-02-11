@@ -25,10 +25,14 @@ class MeasurementFileParser:
         error_points = []
         for file_name in self.file_data:
             current, temperature = self._get_measurement_condition(file_name)
+            try: 
+                dRdT, length = float(self.data["dRdT"]), float(self.data["length"])
+            except ValueError:
+                raise Exception("dRdT or length is not a number")
 
             experiment_data[file_name] = {
-                "dRdT": self.data["dRdT"],
-                "length": self.data["length"],
+                "dRdT": dRdT,
+                "length": length,
                 "current": current,
                 "temperature": temperature,
                 "measurement_data": self.file_data[file_name],
@@ -90,12 +94,12 @@ class ThermalConductivityCalculator:
         volt = self.volt_average()
 
         # 3ω電圧の取得
-        Im_v3omega = np.abs(measurement_data[point]["ImV3omega(V)"])
+        Im_v3omega = measurement_data[point]["ImV3omega(V)"]
 
         # 熱伝導率の計算
         Im_kappa = -(current**2) * volt / (8 * length * Im_v3omega) * dRdT
 
-        return Im_kappa
+        return np.abs(Im_kappa)
 
 
 class ThermalConductivityStats:

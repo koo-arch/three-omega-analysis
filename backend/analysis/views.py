@@ -40,7 +40,7 @@ class AnalysisView(generics.ListCreateAPIView):
         response = HttpResponse(content_type="text/csv; charset=utf-8")
         response.write(codecs.BOM_UTF8)  # UTF-8のBOM（バイト順マーク）を追加（日本語表示に必要）
 
-        writer = csv.writer(response)
+        writer = csv.writer(response, delimiter=",", quotechar='"')
         writer.writerow(["temprature", "kappa_ave", "kappa_std", "Im_kappa_ave", "Im_kappa_std", "start_point", "end_point"])
 
         parser = MeasurementFileParser(data, file_data)
@@ -61,5 +61,5 @@ class AnalysisView(generics.ListCreateAPIView):
             Im_kappa_ave, Im_kappa_std = stats.average_and_std_of_kappa_imaginary(range(start_point, end_point + 1))
 
             writer.writerow([temperature, kappa_ave, kappa_std, Im_kappa_ave, Im_kappa_std, start_point, end_point])
-        
+
         return response
