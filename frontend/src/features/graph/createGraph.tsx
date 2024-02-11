@@ -1,11 +1,15 @@
 import React from 'react';
 import { useAppSelector } from '../../hooks/redux/reduxHooks';
+import { useFetchFileData } from '../../hooks/analysis/useFetchFileData';
 import UploadText from './uploadText';
 import Graph from './graph';
+import GraphList from './graphList';
 import Carousel from 'react-material-ui-carousel';
 
 const CreateGraph: React.FC = () => {
     const uploadedData = useAppSelector(state => state.uploadedData.data);
+
+    useFetchFileData();
     
     return (
         <div>
@@ -21,6 +25,7 @@ const CreateGraph: React.FC = () => {
                     })
                 }
             </Carousel>
+            <GraphList />
         </div>
     )
 }

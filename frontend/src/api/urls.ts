@@ -4,7 +4,10 @@ const urls = {
     Analysis: `/analysis/`,
     Setting: `/analysis/setting/`,
     History: `/analysis/history/`,
+
+    // graph
     Upload: `/graph/upload/`,
+    DeleteGraph: `/graph/delete/`,
 
     // djoser
     Register: `/auth/users/`,
