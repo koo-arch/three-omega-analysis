@@ -4,6 +4,7 @@ export const server: string  = "http://127.0.0.1:8000"
 
 export const axiosConfig = {
     baseURL: `${server}/api/v1/`,
+    withCredentials: true,
 };
 
 const instance: AxiosInstance = axios.create(axiosConfig);
