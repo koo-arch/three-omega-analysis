@@ -7,6 +7,7 @@ class MeasurementFileParser:
     def __init__(self, data, file_data):
         self.data = data
         self.file_data = file_data
+        self.error_points = []
 
     def _get_measurement_condition(self, file_name) -> tuple[float, int]:
         current_match = re.search(r"(\d+)mA", file_name)
@@ -22,13 +23,16 @@ class MeasurementFileParser:
 
     def get_experiment_data(self) -> dict:
         experiment_data = {}
-        error_points = []
+
         for file_name in self.file_data:
             current, temperature = self._get_measurement_condition(file_name)
             try: 
                 dRdT, length = float(self.data["dRdT"]), float(self.data["length"])
             except ValueError:
                 raise Exception("dRdT or length is not a number")
+            
+            start_point = self.data["graphs"][file_name].get("start", None)
+            end_point = self.data["graphs"][file_name].get("end", None)
 
             experiment_data[file_name] = {
                 "dRdT": dRdT,
@@ -36,15 +40,12 @@ class MeasurementFileParser:
                 "current": current,
                 "temperature": temperature,
                 "measurement_data": self.file_data[file_name],
-                "start_point": self.data["graphs"][file_name]["start"],
-                "end_point": self.data["graphs"][file_name]["end"],
+                "start_point": start_point,
+                "end_point": end_point,
             }
 
-            if self.data["graphs"][file_name]["start"] is None or self.data["graphs"][file_name]["end"] is None:
-                error_points.append(file_name)
-        
-        if error_points:
-            raise Exception(f"Error: {error_points} is not defined")
+            if start_point is None or end_point is None:
+                self.error_points.append(file_name)
 
         return experiment_data
 

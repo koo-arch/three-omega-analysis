@@ -6,7 +6,8 @@ import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import Configuration from '../setting/configuration';
 import CreateGraph from '../graph/createGraph';
 import urls from '../../api/urls';
-import { format } from 'date-fns';
+import { downloadCSV, parseBlobToJson } from '../../utils/blob';
+import { useErrorMessage } from '../../hooks/utils/errorHandler';
 import { Button } from '@mui/material';
 
 
@@ -29,25 +30,18 @@ export interface FormValues {
 const Analysis : React.FC = () => {
     const authAxios = useAuthAxios();
     const method = useForm<FormValues>();
-    const { handleSubmit, clearErrors } = method;
+    const { handleSubmit, setError } = method;
     const dispatch = useAppDispatch();
+    const errorMessage = useErrorMessage<FormValues>();
 
     const postAnalysisData = async (data: FormValues) => {
         return await authAxios.post(urls.Analysis, data, { responseType: 'blob' });
     }
 
-    const formatedDate = format(new Date(), "yyyyMMdd");
-    const fileName = `analysis_${formatedDate}.csv`;
-
     const onSubmit: SubmitHandler<FormValues> = (data) => {
-        clearErrors();
         postAnalysisData(data)
             .then(res => {
-                const url = window.URL.createObjectURL(new Blob([res.data]));
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileName;
-                a.click();
+                downloadCSV('analysis', res.data)
                 dispatch(setSnackbar({
                     open: true,
                     message: "解析データを送信しました",
@@ -56,11 +50,21 @@ const Analysis : React.FC = () => {
             
             })
             .catch(err => {
-                dispatch(setSnackbar({
-                    open: true,
-                    message: "解析データの送信に失敗しました",
-                    severity: "error"
-                }))
+                if (err.response?.data) {
+                    parseBlobToJson(err.response.data)
+                        .then((errorData: any) => {
+                            console.log(errorData)
+                            const message = "解析データの送信に失敗しました"
+                            errorMessage(errorData, setError, message)
+                        })
+                        .catch((error: Error) => {
+                            dispatch(setSnackbar({
+                                open: true,
+                                message: error.message,
+                                severity: "error"
+                            }));
+                        });
+                }
             })
     }
 
