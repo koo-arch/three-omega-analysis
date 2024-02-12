@@ -33,8 +33,16 @@ class AnalysisView(generics.ListCreateAPIView):
         file_data = request.session.get('file_data', None)
         data = request.data
 
-        if file_data is None:
-            return Response({'error': 'No data in session'}, status=status.HTTP_400_BAD_REQUEST)
+        if not file_data:
+            return Response({'detail': 'データがありません。'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        parser = MeasurementFileParser(data, file_data)
+        experiment_data = parser.get_experiment_data()
+        if parser.error_points:
+            error_response = {}
+            for name in parser.error_points:
+                error_response[f"graphs.{name}"] = f"{name}が未選択です"
+            return Response(error_response, status=status.HTTP_400_BAD_REQUEST)
 
         # HTTPレスポンスを作成し、CSVファイルとして返す
         response = HttpResponse(content_type="text/csv; charset=utf-8")
@@ -43,8 +51,6 @@ class AnalysisView(generics.ListCreateAPIView):
         writer = csv.writer(response, delimiter=",", quotechar='"')
         writer.writerow(["temprature", "kappa_ave", "kappa_std", "Im_kappa_ave", "Im_kappa_std", "start_point", "end_point"])
 
-        parser = MeasurementFileParser(data, file_data)
-        experiment_data = parser.get_experiment_data()
 
         for condition in experiment_data.values():
 

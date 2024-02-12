@@ -18,44 +18,50 @@ interface GraphProps {
 const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
     const [selectedPoints, setSelectedPoints] = useState<SelectedPoints>({} as SelectedPoints);
 
-    const { setValue } = useFormContext<FormValues>();
+    const { setValue, clearErrors } = useFormContext<FormValues>();
 
     useEffect(() => {
         setValue(`graphs.${graphName}`, selectedPoints)
     },[selectedPoints, graphName, setValue])
-
-
+    
+    
     const handlePointClick = (e: CategoricalChartState) => {
+        clearErrors(`graphs.${graphName}`);
         const pointIndex = e.activeTooltipIndex;
 
-        if (pointIndex) {
-            let newStart = selectedPoints.start;
-            let newEnd = selectedPoints.end;
+        updateSelectedPoints(pointIndex);
+    };
 
-            if (newStart === pointIndex || newEnd === pointIndex) {
+    const updateSelectedPoints = (pointIndex: number | undefined) => {
+        if (pointIndex) {
+
+            let { start, end } = selectedPoints;
+    
+            if (start === pointIndex || end === pointIndex) {
                 // 選択されている点を削除
-                newStart = newStart === pointIndex ? undefined : newStart;
-                newEnd = newEnd === pointIndex ? undefined : newEnd;
+                start = start === pointIndex ? undefined : start;
+                end = end === pointIndex ? undefined : end;
             } else {
                 // 新しい点を追加または更新
-                if (newStart && newEnd) {
-                    newStart = pointIndex;
-                    newEnd = undefined;
-                } else if (!newStart || (newEnd && newStart > pointIndex)) {
-                    newStart = pointIndex;
+                if (start && end) {
+                    start = pointIndex;
+                    end = undefined;
+                } else if (!start || (end && start > pointIndex)) {
+                    start = pointIndex;
                 } else {
-                    newEnd = pointIndex;
+                    end = pointIndex;
                 }
             }
-
+    
             // start が end より大きい場合は入れ替える
-            if (newStart && newEnd && newStart > newEnd) {
-                [newStart, newEnd] = [newEnd, newStart];
+            if (start && end && start > end) {
+                [start, end] = [end, start];
             }
 
-            setSelectedPoints({ start: newStart, end: newEnd });
+            setSelectedPoints({ start: start, end: end });
         }
     };
+
 
     // グラフのy軸の最大値と最小値を設定
     const maxYValue = Math.max(
