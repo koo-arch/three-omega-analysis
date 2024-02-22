@@ -7,12 +7,16 @@ import urls from '../../api/urls';
 import { useDropzone, DropzoneRootProps } from 'react-dropzone';
 import { Box, Container, Typography } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import ErrorIcon from '@mui/icons-material/Error';
 
 const UploadText: React.FC = () => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
+        if (isDragReject) {
+            return;
+        }
         handleUpload(acceptedFiles);
     }, []);
 
@@ -50,7 +54,24 @@ const UploadText: React.FC = () => {
         }
     }
     
-    const { getRootProps, getInputProps } = useDropzone({ onDrop });
+    const { fileRejections, isDragReject, getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        // ドロップされたファイルがテキストファイルでない場合はエラーメッセージを表示
+        accept: {
+            'text/plain': ['.txt']
+        }
+    });
+
+    const fileRejectionItems = fileRejections.map(({ file, errors }, index) => (
+        <div key={index}>
+            {errors.map(e => 
+                <div key={e.code} style={{ color: 'red' }}>
+                    <ErrorIcon style={{ fontSize: '1rem', verticalAlign: 'middle' }} />
+                    <span style={{ marginLeft: '0.5rem' }}>{file.name}は許可された拡張子ではありません</span>
+                </div>
+            )}
+        </div>
+    ));
 
     const dropzoneStyles: DropzoneRootProps = {
         border: '2px dashed #cccccc',
@@ -70,6 +91,7 @@ const UploadText: React.FC = () => {
                     </Typography>
                     <FileUploadIcon sx={{ fontSize: 50 }} />
                 </Box>
+                {fileRejectionItems}
             </Container>
         </Box>
     );
