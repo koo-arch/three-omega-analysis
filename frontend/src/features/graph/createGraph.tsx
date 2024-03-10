@@ -9,7 +9,7 @@ import Carousel from 'react-material-ui-carousel';
 
 const CreateGraph: React.FC = () => {
     const uploadedData = useAppSelector(state => state.uploadedData.data);
-
+    console.log(uploadedData);
     useFetchFileData();
     
     return (
@@ -20,7 +20,7 @@ const CreateGraph: React.FC = () => {
                 autoPlay={false}
             >
                 {uploadedData &&
-                    Object.entries(uploadedData).map(([fileName, measurementData]) => {
+                    Object.entries(uploadedData.data).map(([fileName, measurementData]) => {
                         return (
                             <Graph key={fileName} graphName={fileName} data={measurementData} />
                             )

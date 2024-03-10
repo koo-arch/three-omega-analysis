@@ -1,18 +1,21 @@
 import { useEffect } from 'react';
-import axios from '../../api/axios'
+import { useAuthAxios } from '../auth/useAuthAxios';
 import { useAppDispatch } from '../redux/reduxHooks';
+import { useCookies } from 'react-cookie';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { setUploadedData } from '../../redux/slices/uploadedDataSlice';
 import urls from '../../api/urls';
 
 export const useFetchFileData = () : void => {
+    const [cookies, ] = useCookies(['accesstoken', 'refreshtoken']);
+    const authAxios = useAuthAxios();
     const dispatch = useAppDispatch();
-
+    
     useEffect(() => {
         const fetchFileData = async () => {
             try {
-                const response = await axios.get(urls.Upload);
-                dispatch(setUploadedData(response.data));
+                const response = await authAxios.get(urls.GetGraph);
+                dispatch(setUploadedData(response.data[0]));
             }
             catch (error) {
                 console.log(error);
@@ -23,6 +26,8 @@ export const useFetchFileData = () : void => {
                 }));
             }
         }
-        fetchFileData();
+        if (!!cookies.accesstoken) {
+            fetchFileData();
+        }
     }, [dispatch])
 }

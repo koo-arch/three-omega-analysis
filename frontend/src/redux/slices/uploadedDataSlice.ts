@@ -5,6 +5,10 @@ interface UploadedDataState {
 }
 
 interface UploadedData {
+    data: FileData;
+}
+
+interface FileData {
     [fileName: string]: MeasurementData[]
 }
 

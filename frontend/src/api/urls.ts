@@ -7,7 +7,9 @@ const urls = {
 
     // graph
     Upload: `/graph/upload/`,
+    GetGraph: `/graph/get/`,
     DeleteGraph: `/graph/delete/`,
+    DeleteGraphData: `/graph/data/delete/`,
 
     // djoser
     Register: `/auth/users/`,

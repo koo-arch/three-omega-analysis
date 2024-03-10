@@ -19,13 +19,11 @@ const GraphList: React.FC = () => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
     const { unregister } = useFormContext<FormValues>();
-    const uploadedData = useAppSelector(state => state.uploadedData.data);
+    const uploadedData = useAppSelector(state => state.uploadedData.data?.data);
 
     const handleDelete = async (fileName: string) => {
         try {
-            await authAxios.delete(urls.DeleteGraph, {
-                data: { file_name: fileName}
-            });
+            await authAxios.post(urls.DeleteGraphData, { file_name: fileName });
             dispatch(setSnackbar({
                 open: true,
                 severity: 'success',
@@ -33,7 +31,7 @@ const GraphList: React.FC = () => {
             }));
             // fileNameキーを除外して新しいオブジェクトを作成
             const { [fileName]: _, ...newUploadedData } = uploadedData ? uploadedData : {};
-            dispatch(setUploadedData(newUploadedData));
+            dispatch(setUploadedData({ data: newUploadedData }));
             
             unregister(`graphs.${fileName}`);
         }

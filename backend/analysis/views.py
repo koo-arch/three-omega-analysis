@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, status
 from .models import Setting, History
+from graph.models import FileData
 from .serializers import SettingSerializer, HistorySerializer
 from django.http import HttpResponse
 from rest_framework.response import Response
@@ -27,15 +28,22 @@ class HistoryView(generics.ListCreateAPIView):
 
 
 class AnalysisView(generics.ListCreateAPIView):
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return FileData.objects.filter(user=self.request.user)
 
     def post(self, request, *args, **kwargs):
-        file_data = request.session.get('file_data', None)
+        file_data = (
+            self.get_queryset().values("data").first().get("data", {})
+            if self.get_queryset().exists()
+            else {}
+        )
         data = request.data
 
         if not file_data:
             return Response({'detail': 'データがありません。'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         parser = MeasurementFileParser(data, file_data)
         experiment_data = parser.get_experiment_data()
         if parser.error_points:
@@ -50,7 +58,6 @@ class AnalysisView(generics.ListCreateAPIView):
 
         writer = csv.writer(response, delimiter=",", quotechar='"')
         writer.writerow(["temprature", "kappa_ave", "kappa_std", "Im_kappa_ave", "Im_kappa_std", "start_point", "end_point"])
-
 
         for condition in experiment_data.values():
 
