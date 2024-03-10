@@ -13,6 +13,15 @@ class SettingView(generics.ListCreateAPIView):
     queryset = Setting.objects.all()
     serializer_class = SettingSerializer
 
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+
+class SettingDeleteView(generics.DestroyAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Setting.objects.all()
+    serializer_class = SettingSerializer
+
 
 class HistoryView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)

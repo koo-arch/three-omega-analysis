@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PostFlag {
-    postFlag: boolean,
+    flag: boolean,
 }
 
 const initialState: PostFlag = {
-    postFlag: false,
+    flag: false,
 }
 
 const postFlagSlice = createSlice({
@@ -13,7 +13,7 @@ const postFlagSlice = createSlice({
     initialState,
     reducers: {
         setPostFlag: (state, action: PayloadAction<PostFlag>) => {
-            state.postFlag = action.payload.postFlag;
+            state.flag = action.payload.flag;
         }
     }
 });

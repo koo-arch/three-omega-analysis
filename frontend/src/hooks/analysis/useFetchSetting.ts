@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { useAuthAxios } from '../auth/useAuthAxios';
-import { useAppDispatch } from '../redux/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { fetchSettingSuccess } from '../../redux/slices/settingSlice';
 import urls from '../../api/urls';
 
 export const useFetchSetting = (): void => {
     const [cookies, ] = useCookies(['accesstoken', 'refreshtoken']);
+    const postFlag = useAppSelector(state => state.postFlag.flag);
     const authAxios = useAuthAxios();
     const dispatch = useAppDispatch();
 
@@ -28,5 +29,5 @@ export const useFetchSetting = (): void => {
         if (!!cookies.accesstoken) {
             fetchSetting();
         }
-    },[dispatch])
+    },[dispatch, postFlag])
 }

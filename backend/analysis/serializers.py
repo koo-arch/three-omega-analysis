@@ -12,6 +12,9 @@ class SettingSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, attrs):
+        name = attrs.get("name")
+        if Setting.objects.filter(name=name, user=self.context["request"].user).exists():
+            raise serializers.ValidationError({"name": "この名前は既に使われています。"})
         return super().validate(attrs)
 
 

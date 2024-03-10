@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAppSelector } from '../../hooks/redux/reduxHooks';
-import ValueSetting from './valueSetting';
 import RegisterSetting from './registerSetting';
 import { Grid, Container, Typography } from '@mui/material';
 
@@ -19,7 +18,6 @@ const Configuration: React.FC = () => {
                     </Grid>
                 }
             </Grid>
-            <ValueSetting />
         </Container>
     )
 }

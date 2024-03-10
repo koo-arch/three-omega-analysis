@@ -1,7 +1,7 @@
 const urls = {
 
     // analysis
-    Analysis: `/analysis/`,
+    Analysis: `/analysis/calculate/`,
     Setting: `/analysis/setting/`,
     History: `/analysis/history/`,
 

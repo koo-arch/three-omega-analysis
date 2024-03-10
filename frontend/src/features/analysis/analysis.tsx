@@ -3,6 +3,7 @@ import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
+import ValueSetting from '../setting/valueSetting';
 import Configuration from '../setting/configuration';
 import CreateGraph from '../graph/createGraph';
 import urls from '../../api/urls';
@@ -70,9 +71,10 @@ const Analysis : React.FC = () => {
 
     return (
         <div>
+            <Configuration />
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormProvider {...method}>
-                    <Configuration />
+                    <ValueSetting />
                     <CreateGraph />
                 </FormProvider>
                 <Button variant='outlined' type="submit">送信</Button>

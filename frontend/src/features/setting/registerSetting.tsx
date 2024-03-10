@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAppDispatch } from '../../hooks/redux/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
+import { setPostFlag } from '../../redux/slices/postFlagSlice';
 import urls from '../../api/urls';
 import FormDialog from '../../components/formDialog';
+import { useErrorMessage } from '../../hooks/utils/errorHandler';
 import { TextField, Button, Grid } from '@mui/material';
 
 interface FormValues {
@@ -16,8 +18,10 @@ interface FormValues {
 const RegisterSetting: React.FC = () => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
-    const { register, handleSubmit, clearErrors, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, clearErrors, setError, formState: { errors } } = useForm<FormValues>();
     const [open, setOpen] = useState(false);
+    const postFlag = useAppSelector(state => state.postFlag.flag);
+    const errorMessage = useErrorMessage<FormValues>();
 
     const openDialog = () => setOpen(true);
     const closeDialog = () => setOpen(false);
@@ -35,6 +39,7 @@ const RegisterSetting: React.FC = () => {
                     severity: "success",
                     message: "設定を登録しました。"
                 }));
+                dispatch(setPostFlag({ flag: !postFlag }));
                 closeDialog();
             })
             .catch(err => {
@@ -43,6 +48,7 @@ const RegisterSetting: React.FC = () => {
                     severity: "error",
                     message: "設定の登録に失敗しました。"
                 }));
+                errorMessage(err.response.data, setError, "設定の登録に失敗しました。");
             });
     }
 
