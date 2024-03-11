@@ -17,7 +17,7 @@ class SettingView(generics.ListCreateAPIView):
         return self.queryset.filter(user=self.request.user)
 
 
-class SettingDeleteView(generics.DestroyAPIView):
+class SettingDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = Setting.objects.all()
     serializer_class = SettingSerializer

@@ -4,6 +4,7 @@ import GuestRoute from './components/guestRoute';
 import PrivateRoute from './components/privateRoute';
 import ResponsiveDrawer from './components/responsiveDrawer';
 import Top from './pages/top';
+import SettingList from './pages/settingList';
 import Login from './pages/login';
 import Register from './pages/register';
 import Activation from './pages/activation';
@@ -60,6 +61,7 @@ const App: React.FC = () => {
 
               <Route path='' element={<PrivateRoute />}>
                 <Route path='/account' element={<Account />} />
+                <Route path='/setting' element={<SettingList />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
