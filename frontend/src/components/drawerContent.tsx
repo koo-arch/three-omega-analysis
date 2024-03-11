@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
+import ListIcon from '@mui/icons-material/List';
 
 interface DrawerContentProps {
     handleDrawerClose: () => void;
@@ -43,6 +44,12 @@ const DrawerContent: React.FC<DrawerContentProps> = ({ handleDrawerClose }) => {
                         <HomeIcon />
                     </ListItemIcon>
                     <ListItemText primary="トップページ" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/setting" onClick={handleDrawerClose}>
+                    <ListItemIcon>
+                        <ListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="測定設定一覧" />
                 </ListItemButton>
             </List>
         </div>

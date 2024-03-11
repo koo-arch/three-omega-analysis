@@ -4,7 +4,7 @@ import { FormValues } from '../../features/analysis/analysis';
 import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
 import DropdownSelect from '../../components/dropdownSelect';
-import { TextField, Grid, FormControl } from '@mui/material';
+import { TextField, Grid, FormControl, Container } from '@mui/material';
 
 const ValueSetting: React.FC = () => {
     useFetchSetting();
@@ -34,7 +34,7 @@ const ValueSetting: React.FC = () => {
     },[selectedName, setValue])
     
     return (
-        <div>
+        <Container component={"main"} maxWidth="md">
             {isAuthenticated &&
                 <FormControl
                     fullWidth
@@ -88,7 +88,7 @@ const ValueSetting: React.FC = () => {
                     />
                 </Grid>
             </Grid>
-        </div>
+        </Container>
     )
 }
 

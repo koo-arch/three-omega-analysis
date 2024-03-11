@@ -1,13 +1,15 @@
 const urls = {
 
     // analysis
-    Analysis: `/analysis/`,
+    Analysis: `/analysis/calculate/`,
     Setting: `/analysis/setting/`,
     History: `/analysis/history/`,
 
     // graph
     Upload: `/graph/upload/`,
+    GetGraph: `/graph/get/`,
     DeleteGraph: `/graph/delete/`,
+    DeleteGraphData: `/graph/data/delete/`,
 
     // djoser
     Register: `/auth/users/`,

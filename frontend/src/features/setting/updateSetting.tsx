@@ -1,43 +1,45 @@
 import React, { useState } from 'react';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { setPostFlag } from '../../redux/slices/postFlagSlice';
-import urls from '../../api/urls';
 import FormDialog from '../../components/formDialog';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';
-import { TextField, Button, Grid } from '@mui/material';
+import urls from '../../api/urls';
+import EditIcon from '@mui/icons-material/Edit';
+import { TextField, Grid, IconButton } from '@mui/material';
 
-interface FormValues {
+interface UpdateSettingProps {
+    id: number;
     name: string;
     dRdT: number;
     length: number;
 }
 
-const RegisterSetting: React.FC = () => {
+const UpdateSetting: React.FC<UpdateSettingProps> = ({id, name, dRdT, length}) => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
-    const { register, handleSubmit, clearErrors, setError, formState: { errors } } = useForm<FormValues>();
-    const [open, setOpen] = useState(false);
+    const { register, handleSubmit, clearErrors, setError, formState: { errors } } = useForm<UpdateSettingProps>();
     const postFlag = useAppSelector(state => state.postFlag.flag);
-    const errorMessage = useErrorMessage<FormValues>();
+    const [open, setOpen] = useState(false);
+    const errorMessage = useErrorMessage<UpdateSettingProps>();
 
     const openDialog = () => setOpen(true);
     const closeDialog = () => setOpen(false);
 
-    const postSetting = async (data: FormValues) => {
-        return await authAxios.post(urls.Setting, data);
+    const putSetting = async (data: UpdateSettingProps) => {
+        return await authAxios.put(`${urls.Setting}${id}/`, data);
     }
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const onSubmit: SubmitHandler<UpdateSettingProps> = (data) => {
         clearErrors();
-        postSetting(data)
+        putSetting(data)
             .then(res => {
                 dispatch(setSnackbar({
                     open: true,
                     severity: "success",
-                    message: "設定を登録しました。"
+                    message: "設定を更新しました。"
                 }));
                 dispatch(setPostFlag({ flag: !postFlag }));
                 closeDialog();
@@ -46,21 +48,24 @@ const RegisterSetting: React.FC = () => {
                 dispatch(setSnackbar({
                     open: true,
                     severity: "error",
-                    message: "設定の登録に失敗しました。"
+                    message: "設定の更新に失敗しました。"
                 }));
-                errorMessage(err.response.data, setError, "設定の登録に失敗しました。");
+                errorMessage(err.response.data, setError, "設定の更新に失敗しました。");
             });
     }
 
+
     return (
         <div>
-            <Button variant="contained" onClick={openDialog}>設定の登録</Button>
+            <IconButton color="primary" onClick={openDialog}>
+                <EditIcon />
+            </IconButton>
             <FormDialog
                 open={open}
                 onClose={closeDialog}
                 color="primary"
-                title="設定の登録"
-                buttonText="登録"
+                title="設定の更新"
+                buttonText="更新"
             >
                 <form id="dialog-form" onSubmit={handleSubmit(onSubmit)}>
                     <TextField
@@ -68,7 +73,8 @@ const RegisterSetting: React.FC = () => {
                         label="名前"
                         margin='normal'
                         required
-                        {...register("name")}
+                        defaultValue={name}
+                        {...register("name", { required: "名前を入力してください" })}
                         error={!!errors.name}
                         helperText={errors.name?.message}
                     />
@@ -76,23 +82,25 @@ const RegisterSetting: React.FC = () => {
                         <Grid item xs>
                             <TextField
                                 fullWidth
+                                required
                                 label="dRdT"
                                 margin='normal'
-                                required
-                                {...register("dRdT")}
+                                defaultValue={dRdT}
                                 error={!!errors.dRdT}
                                 helperText={errors.dRdT?.message}
+                                {...register("dRdT", { required: "dRdTを入力してください" })}
                             />
                         </Grid>
                         <Grid item xs>
                             <TextField
                                 fullWidth
-                                label="金線長さ"
-                                margin='normal'
                                 required
-                                {...register("length")}
+                                label="length"
+                                margin='normal'
+                                defaultValue={length}
                                 error={!!errors.length}
                                 helperText={errors.length?.message}
+                                {...register("length", { required: "lengthを入力してください" })}
                             />
                         </Grid>
                     </Grid>
@@ -102,4 +110,4 @@ const RegisterSetting: React.FC = () => {
     )
 }
 
-export default RegisterSetting;
+export default UpdateSetting;
