@@ -7,7 +7,7 @@ import Graph from './graph';
 import GraphList from './graphList';
 import Carousel from 'react-material-ui-carousel';
 
-const CreateGraph: React.FC = () => {
+const GraphField: React.FC = () => {
     const uploadedData = useAppSelector(state => state.uploadedData.data);
     console.log(uploadedData);
     useFetchFileData();
@@ -32,4 +32,4 @@ const CreateGraph: React.FC = () => {
     )
 }
 
-export default CreateGraph;
+export default GraphField;

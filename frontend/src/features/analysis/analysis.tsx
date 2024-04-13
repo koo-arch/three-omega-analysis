@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import ValueSetting from '../setting/valueSetting';
 import Configuration from '../setting/configuration';
-import CreateGraph from '../graph/createGraph';
+import GraphField from '../graph/graphField';
 import urls from '../../api/urls';
 import { downloadCSV, parseBlobToJson } from '../../utils/blob';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';
@@ -75,7 +75,7 @@ const Analysis : React.FC = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormProvider {...method}>
                     <ValueSetting />
-                    <CreateGraph />
+                    <GraphField />
                 </FormProvider>
                 <Button variant='outlined' type="submit">送信</Button>
             </form>
