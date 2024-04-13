@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFetchFileData } from '../../hooks/analysis/useFetchFileData';
 import UploadText from './uploadText';
@@ -11,6 +11,17 @@ const GraphField: React.FC = () => {
     const uploadedData = useAppSelector(state => state.uploadedData.data);
     console.log(uploadedData);
     useFetchFileData();
+
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const handleSetIndex = (index: number) => {
+        setActiveIndex(index);
+    }
+
+    // カルーセルとactiveIndexの連携
+    const handleCarouselChange = (now?: number, previous?: number) => {
+        setActiveIndex(now ?? 0);
+    };
     
     return (
         <div>
@@ -18,6 +29,8 @@ const GraphField: React.FC = () => {
             <GraphErrors />
             <Carousel
                 autoPlay={false}
+                index={activeIndex}
+                onChange={handleCarouselChange}
             >
                 {uploadedData &&
                     Object.entries(uploadedData.data).map(([fileName, measurementData]) => {
@@ -27,7 +40,7 @@ const GraphField: React.FC = () => {
                         })
                     }
             </Carousel>
-            <GraphList />
+            <GraphList activeIndex={activeIndex} onListItemClick={handleSetIndex}/>
         </div>
     )
 }

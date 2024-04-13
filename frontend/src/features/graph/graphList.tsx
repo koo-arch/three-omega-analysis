@@ -8,14 +8,18 @@ import { FormValues } from '../analysis/analysis';
 import urls from '../../api/urls';
 import {
     List,
-    ListItem,
     ListItemText,
+    ListItemButton,
     IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+interface GraphListProps {
+    activeIndex: number;
+    onListItemClick: (index: number) => void;
+}
 
-const GraphList: React.FC = () => {
+const GraphList: React.FC<GraphListProps> = ({ activeIndex, onListItemClick }) => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
     const { unregister } = useFormContext<FormValues>();
@@ -49,14 +53,23 @@ const GraphList: React.FC = () => {
         <div>
             <List>
                 {uploadedData &&
-                    Object.keys(uploadedData).map((fileName) => {
+                    Object.keys(uploadedData).map((fileName, index) => {
                         return (
-                            <ListItem key={fileName}>
+                            <ListItemButton 
+                                key={fileName}
+                                onClick={() => onListItemClick(index)}
+                                selected={activeIndex === index}
+                            >
                                 <ListItemText primary={fileName} />
-                                <IconButton color='error' onClick={() => handleDelete(fileName)}>
+                                <IconButton
+                                    color='error'
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDelete(fileName);
+                                    }}>
                                     <DeleteIcon />
                                 </IconButton>
-                            </ListItem>
+                            </ListItemButton>
                         )
                     })
                 }
