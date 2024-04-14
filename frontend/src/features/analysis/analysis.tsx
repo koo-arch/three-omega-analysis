@@ -9,7 +9,7 @@ import GraphField from '../graph/graphField';
 import urls from '../../api/urls';
 import { downloadCSV, parseBlobToJson } from '../../utils/blob';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';
-import { Button } from '@mui/material';
+import { Button, Card, CardContent } from '@mui/material';
 
 
 export interface SelectedPoints {
@@ -71,14 +71,20 @@ const Analysis : React.FC = () => {
 
     return (
         <div>
-            <Configuration />
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <FormProvider {...method}>
-                    <ValueSetting />
-                    <GraphField />
-                </FormProvider>
-                <Button variant='outlined' type="submit">送信</Button>
-            </form>
+            <Card variant='outlined' sx={{ mb: 2 }}>
+                <CardContent>
+                    <Configuration />
+                    <form id="analysis-form" onSubmit={handleSubmit(onSubmit)}>
+                        <FormProvider {...method}>
+                            <ValueSetting />
+                        </FormProvider>
+                    </form>
+                </CardContent>
+            </Card>
+            <FormProvider {...method}>
+                <GraphField />
+            </FormProvider>
+            <Button variant='outlined' form="analysis-form" type="submit">送信</Button>
         </div>
     )
 }

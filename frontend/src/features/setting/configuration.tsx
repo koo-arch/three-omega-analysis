@@ -10,7 +10,7 @@ const Configuration: React.FC = () => {
         <Container>
             <Grid container>
                 <Grid item xs>
-                    <Typography variant='h3'>値設定</Typography>
+                    <Typography variant='h3'>測定設定</Typography>
                 </Grid>
                 {isAuthenticated &&
                     <Grid>
@@ -18,6 +18,10 @@ const Configuration: React.FC = () => {
                     </Grid>
                 }
             </Grid>
+            {isAuthenticated ? 
+                <Typography>設定を入力するか選択してください。</Typography> : 
+                <Typography>ログインして設定を入力してください。</Typography>
+            }
         </Container>
     )
 }

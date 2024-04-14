@@ -6,7 +6,7 @@ import { setUploadedData } from '../../redux/slices/uploadedDataSlice';
 import { useNavigate } from 'react-router-dom';
 import urls from '../../api/urls';
 import { useDropzone, DropzoneRootProps } from 'react-dropzone';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ErrorIcon from '@mui/icons-material/Error';
 
@@ -96,7 +96,7 @@ const UploadText: React.FC = () => {
 
     return (
         <Box>
-            <Container component={"main"} maxWidth="md">
+            <div>
                 <Box {...getRootProps({ style: dropzoneStyles })} sx={{ mb: 2 }}>
                     <input {...getInputProps()} />
                     <Typography component={"h1"} variant='h6'>
@@ -105,7 +105,7 @@ const UploadText: React.FC = () => {
                     <FileUploadIcon sx={{ fontSize: 50 }} />
                 </Box>
                 {fileRejectionItems}
-            </Container>
+            </div>
         </Box>
     );
 };
