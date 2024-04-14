@@ -3,6 +3,7 @@ import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { setUploadedData } from '../../redux/slices/uploadedDataSlice';
+import { useNavigate } from 'react-router-dom';
 import urls from '../../api/urls';
 import { useDropzone, DropzoneRootProps } from 'react-dropzone';
 import { Box, Container, Typography } from '@mui/material';
@@ -12,14 +13,9 @@ import ErrorIcon from '@mui/icons-material/Error';
 const UploadText: React.FC = () => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
+    const navigation = useNavigate();
 
-    const onDrop = useCallback((acceptedFiles: File[]) => {
-        if (isDragReject) {
-            return;
-        }
-        handleUpload(acceptedFiles);
-    }, []);
-
+    
     const uploadFiles = async (files: FormData) => {
         return await authAxios.post(urls.Upload, files, {
             headers: {
@@ -27,7 +23,7 @@ const UploadText: React.FC = () => {
             }
         });
     };
-
+    
     const handleUpload = async (fileToUpload: File[]) => {
         const formData = new FormData();
         fileToUpload.forEach(file => {
@@ -43,16 +39,33 @@ const UploadText: React.FC = () => {
                 message: 'アップロードに成功しました。'
             }));
             dispatch(setUploadedData(response.data));
-        }
-        catch (error) {
+        } catch (error: any) {
             console.log(error);
+            
             dispatch(setSnackbar({
                 open: true,
                 severity: 'error',
                 message: 'アップロードに失敗しました。'
             }));
+            
+            if (error?.response?.status === 403) {
+                navigation('/login');
+                dispatch(setSnackbar({
+                    open: true,
+                    severity: 'error',
+                    message: 'ファイルをアップロードするにはログインしてください。'
+                }));
+            }
         }
     }
+
+    // ファイルがドロップされたときに実行
+    const onDrop = useCallback((acceptedFiles: File[]) => {
+        if (isDragReject) {
+            return;
+        }
+        handleUpload(acceptedFiles);
+    }, []);
     
     const { fileRejections, isDragReject, getRootProps, getInputProps } = useDropzone({
         onDrop,
