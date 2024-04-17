@@ -38,10 +38,11 @@ const ValueSetting: React.FC = () => {
             {isAuthenticated &&
                 <FormControl
                     fullWidth
-                    margin='normal'
+                    margin='dense'
                 >
                     <DropdownSelect
                         label="設定"
+                        variant="standard"
                         value={selectedName}
                         onChange={handleChange}
                         items={names}
@@ -56,7 +57,8 @@ const ValueSetting: React.FC = () => {
                         fullWidth
                         required
                         label="dRdT"
-                        margin='normal'
+                        variant="standard"
+                        margin='dense'
                         error={!!errors.dRdT}
                         helperText={errors.dRdT?.message}
                         {...register("dRdT")}
@@ -74,7 +76,8 @@ const ValueSetting: React.FC = () => {
                         fullWidth
                         required
                         label="長さ"
-                        margin='normal'
+                        variant="standard"
+                        margin='dense'
                         error={!!errors.length}
                         helperText={errors.length?.message}
                         {...register("length")}

@@ -19,6 +19,11 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const App: React.FC = () => {
   const theme = createTheme({
+    palette: {
+      background: {
+        default: '#f0f0f0'  // 灰色の背景
+      }
+    },
     typography: {
       fontFamily: [
         'Roboto',

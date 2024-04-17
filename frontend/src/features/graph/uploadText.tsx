@@ -88,8 +88,8 @@ const UploadText: React.FC = () => {
 
     const dropzoneStyles: DropzoneRootProps = {
         border: '2px dashed #cccccc',
-        borderRadius: '4px',
-        padding: '20px',
+        borderRadius: '10px',
+        padding: '40px',
         textAlign: 'center',
         cursor: 'pointer',
     };
@@ -99,10 +99,13 @@ const UploadText: React.FC = () => {
             <div>
                 <Box {...getRootProps({ style: dropzoneStyles })} sx={{ mb: 2 }}>
                     <input {...getInputProps()} />
+                    <FileUploadIcon sx={{ fontSize: 100 }} />
                     <Typography component={"h1"} variant='h6'>
-                        テキストファイルをアップロードしてください。
+                        テキストファイルをドラッグ&ドロップ
                     </Typography>
-                    <FileUploadIcon sx={{ fontSize: 50 }} />
+                    <Typography component={"p"} variant='body2'>
+                        またはクリックしてファイルを選択
+                    </Typography>
                 </Box>
                 {fileRejectionItems}
             </div>

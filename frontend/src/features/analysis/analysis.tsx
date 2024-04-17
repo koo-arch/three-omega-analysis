@@ -5,11 +5,12 @@ import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import ValueSetting from '../setting/valueSetting';
 import Configuration from '../setting/configuration';
+import UploadText from '../graph/uploadText';
 import GraphField from '../graph/graphField';
 import urls from '../../api/urls';
 import { downloadCSV, parseBlobToJson } from '../../utils/blob';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';
-import { Button, Card, CardContent } from '@mui/material';
+import { Box, Button, Grid, Card, CardContent } from '@mui/material';
 
 
 export interface SelectedPoints {
@@ -71,16 +72,25 @@ const Analysis : React.FC = () => {
 
     return (
         <div>
-            <Card variant='outlined' sx={{ mb: 2 }}>
-                <CardContent>
-                    <Configuration />
-                    <form id="analysis-form" onSubmit={handleSubmit(onSubmit)}>
-                        <FormProvider {...method}>
-                            <ValueSetting />
-                        </FormProvider>
-                    </form>
-                </CardContent>
-            </Card>
+            <Box>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={7}>
+                        <UploadText />
+                    </Grid>
+                    <Grid item xs={12} md={5}>
+                        <Card variant='outlined' sx={{ mb: 2 }}>
+                            <CardContent>
+                                <Configuration />
+                                <form id="analysis-form" onSubmit={handleSubmit(onSubmit)}>
+                                    <FormProvider {...method}>
+                                        <ValueSetting />
+                                    </FormProvider>
+                                </form>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
+            </Box>
             <FormProvider {...method}>
                 <GraphField />
             </FormProvider>

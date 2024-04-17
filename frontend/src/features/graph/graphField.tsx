@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFetchFileData } from '../../hooks/analysis/useFetchFileData';
-import UploadText from './uploadText';
 import GraphErrors from './graphErrors';
 import GraphCarousel from './graphCarousel';
 import GraphList from './graphList';
@@ -42,7 +41,6 @@ const GraphField: React.FC = () => {
     
     return (
         <div>
-            <UploadText />
             {isDataExist(uploadedData?.data) &&
                 <div>
                     <Typography variant="h6">グラフ</Typography>
