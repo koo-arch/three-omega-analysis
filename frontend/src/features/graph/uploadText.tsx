@@ -5,8 +5,8 @@ import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { setUploadedData } from '../../redux/slices/uploadedDataSlice';
 import { useNavigate } from 'react-router-dom';
 import urls from '../../api/urls';
-import { useDropzone, DropzoneRootProps } from 'react-dropzone';
-import { Box, Typography } from '@mui/material';
+import { useDropzone } from 'react-dropzone';
+import { Card, CardActionArea, CardContent, Box, Typography } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import ErrorIcon from '@mui/icons-material/Error';
 
@@ -86,27 +86,40 @@ const UploadText: React.FC = () => {
         </div>
     ));
 
-    const dropzoneStyles: DropzoneRootProps = {
-        border: '2px dashed #cccccc',
-        borderRadius: '10px',
-        padding: '40px',
-        textAlign: 'center',
-        cursor: 'pointer',
-    };
-
     return (
         <Box>
             <div>
-                <Box {...getRootProps({ style: dropzoneStyles })} sx={{ mb: 2 }}>
-                    <input {...getInputProps()} />
-                    <FileUploadIcon sx={{ fontSize: 100 }} />
-                    <Typography component={"h1"} variant='h6'>
-                        テキストファイルをドラッグ&ドロップ
-                    </Typography>
-                    <Typography component={"p"} variant='body2'>
-                        またはクリックしてファイルを選択
-                    </Typography>
-                </Box>
+                <Card 
+                    variant='outlined'
+                    sx={{
+                        mb: 2,
+                        height: 240,
+                        bgcolor: "background.default",
+                        border: "3px dashed #cccccc",
+                        borderRadius: "10px",
+                    }}
+                >
+                    <CardActionArea {...getRootProps()} sx={{ height: '100%', textAlign: 'center' }}>
+                        <CardContent 
+                            sx={{ 
+                                flexGrow: 1,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <input {...getInputProps()} />
+                            <Typography component="h1" variant="h6" color="text.primary" gutterBottom>
+                                テキストファイルをドラッグ&ドロップ
+                            </Typography>
+                            <FileUploadIcon sx={{ fontSize: 100 }} />
+                            <Typography component="p" variant="body1">
+                                またはクリックしてファイルを選択
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
                 {fileRejectionItems}
             </div>
         </Box>

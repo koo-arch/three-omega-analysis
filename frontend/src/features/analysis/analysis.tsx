@@ -78,7 +78,7 @@ const Analysis : React.FC = () => {
                         <UploadText />
                     </Grid>
                     <Grid item xs={12} md={5}>
-                        <Card variant='outlined' sx={{ mb: 2 }}>
+                        <Card variant='outlined' sx={{ mb: 2, height: 240 }}>
                             <CardContent>
                                 <Configuration />
                                 <form id="analysis-form" onSubmit={handleSubmit(onSubmit)}>

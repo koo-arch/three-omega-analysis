@@ -19,8 +19,8 @@ const Configuration: React.FC = () => {
                 }
             </Grid>
             {isAuthenticated ? 
-                <Typography>設定を入力するか選択してください。</Typography> : 
-                <Typography>ログインして設定を入力してください。</Typography>
+                <Typography variant='body2' gutterBottom>設定を入力または選択してください</Typography> : 
+                <Typography variant='body2' gutterBottom>ログインして設定を入力してください</Typography>
             }
         </Container>
     )

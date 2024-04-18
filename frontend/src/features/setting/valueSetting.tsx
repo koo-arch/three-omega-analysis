@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useWatch, useFormContext } from 'react-hook-form';
 import { FormValues } from '../../features/analysis/analysis';
 import { useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
@@ -14,7 +14,10 @@ const ValueSetting: React.FC = () => {
     const names = [...new Set(setting?.map(item => item.name))];
     const [selectedName, setSelectedName] = useState<string>("");
     const selectedObj = setting?.find(item => item.name === selectedName);
-    const { register, setValue, watch, formState: { errors } } = useFormContext<FormValues>();
+    const { register, setValue, formState: { errors } } = useFormContext<FormValues>();
+
+    const dRdTWatched = useWatch({ name: "dRdT"});
+    const lengthWatched = useWatch({ name: "length"});
 
     // フォーカス状態を管理するための状態変数
     const [isFocused, setIsFocused] = useState({ dRdT: false, length: false });
@@ -34,7 +37,7 @@ const ValueSetting: React.FC = () => {
     },[selectedName, setValue])
     
     return (
-        <Container component={"main"} maxWidth="md">
+        <Container>
             {isAuthenticated &&
                 <FormControl
                     fullWidth
@@ -63,7 +66,7 @@ const ValueSetting: React.FC = () => {
                         helperText={errors.dRdT?.message}
                         {...register("dRdT")}
                         InputLabelProps={{
-                            shrink: isFocused.dRdT || !!watch("dRdT"), // dRdTが存在する場合にtrue
+                            shrink: isFocused.dRdT || !!dRdTWatched, // dRdTが存在する場合にtrue
                         }}
                         InputProps={{
                             onFocus: () => setIsFocused({ ...isFocused, dRdT: true }),
@@ -82,7 +85,7 @@ const ValueSetting: React.FC = () => {
                         helperText={errors.length?.message}
                         {...register("length")}
                         InputLabelProps={{
-                            shrink: isFocused.length || !!watch("length"), // lengthが存在する場合にtrue
+                            shrink: isFocused.length || !!lengthWatched, // lengthが存在する場合にtrue
                         }}
                         InputProps={{
                             onFocus: () => setIsFocused({ ...isFocused, length: true }),
