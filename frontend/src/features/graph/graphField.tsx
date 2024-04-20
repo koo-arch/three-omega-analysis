@@ -4,7 +4,7 @@ import { useFetchFileData } from '../../hooks/analysis/useFetchFileData';
 import GraphErrors from './graphErrors';
 import GraphCarousel from './graphCarousel';
 import GraphList from './graphList';
-import { Typography, Grid } from '@mui/material';
+import { Container, Typography, Grid } from '@mui/material';
 
 interface FileData {
     [fileName: string]: MeasurementData[]
@@ -45,14 +45,16 @@ const GraphField: React.FC = () => {
                 <div>
                     <Typography variant="h6">グラフ</Typography>
                     <GraphErrors />
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={8}>
-                            <GraphCarousel activeIndex={activeIndex} onIndexChange={handleCarouselChange}/>
+                    <Container maxWidth="md">
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={8}>
+                                <GraphCarousel activeIndex={activeIndex} onIndexChange={handleCarouselChange}/>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <GraphList activeIndex={activeIndex} onListItemClick={handleSetIndex}/>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} md={4}>
-                            <GraphList activeIndex={activeIndex} onListItemClick={handleSetIndex}/>
-                        </Grid>
-                    </Grid>
+                    </Container>
                 </div>
             }
         </div>
