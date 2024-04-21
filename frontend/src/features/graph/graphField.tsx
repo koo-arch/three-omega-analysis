@@ -43,7 +43,8 @@ const GraphField: React.FC = () => {
         <div>
             {isDataExist(uploadedData?.data) &&
                 <div>
-                    <Typography variant="h6">グラフ</Typography>
+                    <Typography variant="h3">グラフ</Typography>
+                    <Typography variant="body1" gutterBottom>各グラフの2点をクリックして解析範囲を指定してください</Typography>
                     <GraphErrors />
                     <Container maxWidth="md">
                         <Grid container spacing={2}>

@@ -15,7 +15,7 @@ import {
     Typography
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import StartEndIcon from '@mui/icons-material/LinearScale';
+import TimeLineIcon from '@mui/icons-material/Timeline';
 
 interface GraphListProps {
     activeIndex: number;
@@ -59,18 +59,24 @@ const GraphList: React.FC<GraphListProps> = ({ activeIndex, onListItemClick }) =
                 {uploadedData &&
                     Object.keys(uploadedData).map((fileName, index) => {
                         const points = selectedPoints[fileName];
-                        const displayPoints = points ? `${points.start}, ${points.end}` : '未設定';
+                        const startPoint = points?.start ? points.start : '--';
+                        const endPoint = points?.end ? points.end : '--';
                         return (
                             <ListItemButton 
                                 key={fileName}
                                 onClick={() => onListItemClick(index)}
                                 selected={activeIndex === index}
                             >
-                                <ListItemText primary={fileName} secondary={
-                                    <Typography component="span" variant="body2" color="textSecondary">
-                                        <StartEndIcon fontSize="small" /> {displayPoints}
-                                    </Typography>
-                                } />
+                                <ListItemText
+                                    primary={fileName}
+                                    secondary={
+                                        <Typography component="span" variant="body2" color="textSecondary">
+                                            <TimeLineIcon fontSize="small" style={{ verticalAlign: "middle" }} />
+                                            {' '}{startPoint} ~ {endPoint}
+                                        </Typography>
+                                    }
+                                />
+
                                 <IconButton
                                     color='error'
                                     onClick={(e) => {
