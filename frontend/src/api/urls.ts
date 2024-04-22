@@ -8,8 +8,8 @@ const urls = {
     // graph
     Upload: `/graph/upload/`,
     GetGraph: `/graph/get/`,
-    DeleteGraph: `/graph/delete/`,
-    DeleteGraphData: `/graph/data/delete/`,
+    ClearAllGraph: `graph/clear/all/`,
+    ClearGraphData: `/graph/clear/`,
 
     // djoser
     Register: `/auth/users/`,

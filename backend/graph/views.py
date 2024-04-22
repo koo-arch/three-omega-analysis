@@ -86,13 +86,7 @@ class FileProcessingView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FileDeleteView(generics.DestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    queryset = FileData.objects.all()
-    serializer_class = FileDataSerializer
-
-
-class FileDataDeleteView(generics.CreateAPIView):
+class AllGraphDataClearView(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = FileData.objects.all()
     serializer_class = FileDataSerializer
@@ -100,9 +94,26 @@ class FileDataDeleteView(generics.CreateAPIView):
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
 
-    def post(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
+        update_count = self.get_queryset().update(data={})
+
+        if update_count == 0:
+            return Response({'detail': 'データが見つかりません'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'detail': 'データがクリアされました'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class GraphDataClearView(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = FileData.objects.all()
+    serializer_class = FileDataSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user, pk=self.kwargs.get('pk'))
+
+    def patch(self, request, *args, **kwargs):
         file_name = request.data.get('file_name')
-        file_data = self.queryset.filter(user=request.user).values('data').first().get('data', {})
+        file_data = self.get_object().data
 
         if file_name in file_data:
             del file_data[file_name]
