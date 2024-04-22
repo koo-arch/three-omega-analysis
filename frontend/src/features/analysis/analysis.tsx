@@ -11,6 +11,7 @@ import urls from '../../api/urls';
 import { downloadCSV, parseBlobToJson } from '../../utils/blob';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';
 import { Box, Button, Grid, Card, CardContent } from '@mui/material';
+import AnalysisButton from './analysisButton';
 
 
 export interface SelectedPoints {
@@ -94,7 +95,11 @@ const Analysis : React.FC = () => {
             <FormProvider {...method}>
                 <GraphField />
             </FormProvider>
-            <Button variant='outlined' form="analysis-form" type="submit">送信</Button>
+            <Grid container justifyContent={'flex-end'}>
+                <Grid item>
+                    <AnalysisButton />
+                </Grid>
+            </Grid>
         </div>
     )
 }

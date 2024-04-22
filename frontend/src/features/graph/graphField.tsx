@@ -4,29 +4,13 @@ import { useFetchFileData } from '../../hooks/analysis/useFetchFileData';
 import GraphErrors from './graphErrors';
 import GraphCarousel from './graphCarousel';
 import GraphList from './graphList';
+import { isDataExist } from '../../utils/uploadFile';
 import { Container, Typography, Grid } from '@mui/material';
-
-interface FileData {
-    [fileName: string]: MeasurementData[]
-}
-
-interface MeasurementData {
-    "Current_Freq(Hz)": number;
-    "Heater_Freq(Hz)": number;
-    "Vomega(V)": number;
-    "ImVomega(V)": number;
-    "V3omega(V)": number;
-    "ImV3omega(V)": number;
-}
 
 const GraphField: React.FC = () => {
     const uploadedData = useAppSelector(state => state.uploadedData.data);
     console.log(uploadedData);
     useFetchFileData();
-
-    const isDataExist = (data?: FileData): boolean => {
-        return !!data && Object.keys(data).length !== 0;
-    }
 
     const [activeIndex, setActiveIndex] = useState(0);
 
