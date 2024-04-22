@@ -3,6 +3,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import FileData
 from .serializers import FileDataSerializer
+from .exceptions import FileProcessingException
 
 
 class FileGetView(generics.ListAPIView):
@@ -31,6 +32,8 @@ class FileProcessingView(generics.CreateAPIView):
             else {}
         )
 
+        defalut_columns = ["Current_Freq(Hz)", "Heater_Freq(Hz)", "Vomega(V)", "ImVomega(V)", "V3omega(V)", "ImV3omega(V)"]
+
         for file in files:
             lines = file.read().decode('utf-8').splitlines()
 
@@ -54,6 +57,8 @@ class FileProcessingView(generics.CreateAPIView):
                     columns = line.split('Columns>> ')[1].strip().split()
                     for column in columns:
                         column_names.append(column)
+                    if column_names != defalut_columns:
+                        raise FileProcessingException(detail='ファイルの列名が不正です。')
                     start_processing = True
 
             file_name = file.name.split('.')[0]

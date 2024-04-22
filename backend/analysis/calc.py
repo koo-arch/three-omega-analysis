@@ -1,6 +1,7 @@
 import re
 import numpy as np
 from itertools import combinations
+from .exceptions import AnalysisException
 
 
 class MeasurementFileParser:
@@ -17,7 +18,7 @@ class MeasurementFileParser:
         temperature = int(temperature_match.group(1)) if temperature_match else None
 
         if current is None or temperature is None:
-            raise Exception("File name is not correct")
+            raise AnalysisException("ファイル名に温度または電流が含まれていません。")
 
         return current, temperature
 
@@ -29,7 +30,7 @@ class MeasurementFileParser:
             try: 
                 dRdT, length = float(self.data["dRdT"]), float(self.data["length"])
             except ValueError:
-                raise Exception("dRdT or length is not a number")
+                raise AnalysisException("dRdTまたは試料長が数値ではありません。")
             
             start_point = self.data["graphs"][file_name].get("start", None)
             end_point = self.data["graphs"][file_name].get("end", None)

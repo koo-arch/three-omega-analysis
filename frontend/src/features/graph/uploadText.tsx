@@ -41,11 +41,12 @@ const UploadText: React.FC = () => {
             dispatch(setUploadedData(response.data));
         } catch (error: any) {
             console.log(error);
+            const errorDetail = error.response?.data?.detail;
             
             dispatch(setSnackbar({
                 open: true,
                 severity: 'error',
-                message: 'アップロードに失敗しました。'
+                message: errorDetail ? errorDetail : 'アップロードに失敗しました。'
             }));
             
             if (error?.response?.status === 403) {
