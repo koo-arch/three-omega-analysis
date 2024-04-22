@@ -49,7 +49,10 @@ class FileProcessingView(generics.CreateAPIView):
                     # 測定データを列ごとに分割してmeasurement_dataに追加
                     if len(values) > 1:
                         for i, column in enumerate(column_names):
-                            measurement_data_point[column] = float(values[i])
+                            try:
+                                measurement_data_point[column] = float(values[i])
+                            except ValueError:
+                                raise FileProcessingException(detail='ファイルのデータが不正です。')
                         measurement_data.append(measurement_data_point)
 
                 # Coulmns>> からデータ処理を開始する
