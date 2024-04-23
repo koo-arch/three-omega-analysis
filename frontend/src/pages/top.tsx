@@ -10,7 +10,7 @@ const Top: React.FC = () => {
 
     return (
         <div>
-            <Container maxWidth="md">
+            <Container>
                 <Typography component={"h1"} variant='h3'>
                     3ω解析
                 </Typography>

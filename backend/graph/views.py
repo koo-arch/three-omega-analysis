@@ -3,6 +3,8 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import FileData
 from .serializers import FileDataSerializer
+from .parse_file import ParseTextFile
+from .exceptions import FileProcessingException
 
 
 class FileGetView(generics.ListAPIView):
@@ -31,37 +33,29 @@ class FileProcessingView(generics.CreateAPIView):
             else {}
         )
 
-        for file in files:
-            lines = file.read().decode('utf-8').splitlines()
+        file_parser = ParseTextFile(files, files_columns_data)
+        files_columns_data = file_parser.parse_text_file()
 
-            start_processing = False
-            measurement_data = []
-            column_names = []
+        # エラーがある場合はエラーレスポンスを返す
+        if file_parser.column_errors or file_parser.value_errors:
+            error_response = {}
+            
+            for name, errors in file_parser.column_errors.items():
+                if name not in error_response:
+                    error_response[name] = []
+                error_response[name].extend(errors) 
+            
+            for name, errors in file_parser.value_errors.items():
+                if name not in error_response:
+                    error_response[name] = []
+                error_response[name].extend(errors) 
 
-            for line in lines:
-                measurement_data_point = {}
-
-                if start_processing:
-                    values = line.strip().split()
-                    # 測定データを列ごとに分割してmeasurement_dataに追加
-                    if len(values) > 1:
-                        for i, column in enumerate(column_names):
-                            measurement_data_point[column] = float(values[i])
-                        measurement_data.append(measurement_data_point)
-
-                # Coulmns>> からデータ処理を開始する
-                elif line.startswith('Columns>>'):
-                    columns = line.split('Columns>> ')[1].strip().split()
-                    for column in columns:
-                        column_names.append(column)
-                    start_processing = True
-
-            file_name = file.name.split('.')[0]
-            files_columns_data[file_name] = measurement_data
+            if error_response:
+                raise FileProcessingException(detail=error_response)
 
         register_data = {
             "user": request.user.id,
-            "name": file_name,
+            "name": "graph_data",
             "data": files_columns_data
         }
 
@@ -78,13 +72,7 @@ class FileProcessingView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class FileDeleteView(generics.DestroyAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    queryset = FileData.objects.all()
-    serializer_class = FileDataSerializer
-
-
-class FileDataDeleteView(generics.CreateAPIView):
+class AllGraphDataClearView(generics.UpdateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     queryset = FileData.objects.all()
     serializer_class = FileDataSerializer
@@ -92,9 +80,26 @@ class FileDataDeleteView(generics.CreateAPIView):
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
 
-    def post(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
+        update_count = self.get_queryset().update(data={})
+
+        if update_count == 0:
+            return Response({'detail': 'データが見つかりません'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response({'detail': 'データがクリアされました'}, status=status.HTTP_204_NO_CONTENT)
+
+
+class GraphDataClearView(generics.UpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    queryset = FileData.objects.all()
+    serializer_class = FileDataSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user, pk=self.kwargs.get('pk'))
+
+    def patch(self, request, *args, **kwargs):
         file_name = request.data.get('file_name')
-        file_data = self.queryset.filter(user=request.user).values('data').first().get('data', {})
+        file_data = self.get_object().data
 
         if file_name in file_data:
             del file_data[file_name]

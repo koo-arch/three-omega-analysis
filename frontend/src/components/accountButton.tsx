@@ -32,11 +32,7 @@ const AccountButton: React.FC = () => {
             :
             <Button
                 variant='outlined'
-                sx={{
-                    background: "#ffffff",
-                    color: '#3f50b5',
-                    ":hover": { background: "#ffffff" },
-                }}
+                color="primary"
                 component={Link}
                 to='/login'
             >

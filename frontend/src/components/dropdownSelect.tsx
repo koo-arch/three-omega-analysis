@@ -4,6 +4,7 @@ import { MenuItem, TextField } from '@mui/material';
 interface DropdownSelectProps {
     label: string;
     value: string;
+    variant: "standard" | "outlined" | "filled";
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     items: string[];
     error: boolean;
@@ -11,12 +12,13 @@ interface DropdownSelectProps {
 }
 
 const DropdownSelect: React.FC<DropdownSelectProps> = (props) => {
-    const { label, value, onChange, items, error, helperText } = props;
+    const { label, value, variant, onChange, items, error, helperText } = props;
     return (
         <TextField
             select
             label={label}
             value={value}
+            variant={variant}
             onChange={onChange}
             error={error}
             helperText={helperText}

@@ -26,7 +26,7 @@ const SettingList: React.FC = () => {
 
     return (
         <div>
-            <Container>
+            <Container maxWidth="md">
                 <Box>
                     <Typography variant='h3'>設定一覧</Typography>
                     {isLoading && <Loading open={isLoading}/>}

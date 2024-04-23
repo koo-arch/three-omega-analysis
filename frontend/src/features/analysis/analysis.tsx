@@ -3,13 +3,17 @@ import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
+import { clearUploadError } from '../../redux/slices/uploadErrorSlice';
 import ValueSetting from '../setting/valueSetting';
 import Configuration from '../setting/configuration';
-import CreateGraph from '../graph/createGraph';
+import UploadText from '../graph/uploadText';
+import GraphField from '../graph/graphField';
+import UploadError from './uploadErrors';
 import urls from '../../api/urls';
 import { downloadCSV, parseBlobToJson } from '../../utils/blob';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';
-import { Button } from '@mui/material';
+import { Box, Grid, Card, CardContent } from '@mui/material';
+import AnalysisButton from './analysisButton';
 
 
 export interface SelectedPoints {
@@ -48,6 +52,7 @@ const Analysis : React.FC = () => {
                     message: "解析データを送信しました",
                     severity: "success"
                 }))
+                dispatch(clearUploadError());
             
             })
             .catch(err => {
@@ -71,14 +76,34 @@ const Analysis : React.FC = () => {
 
     return (
         <div>
-            <Configuration />
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <FormProvider {...method}>
-                    <ValueSetting />
-                    <CreateGraph />
-                </FormProvider>
-                <Button variant='outlined' type="submit">送信</Button>
-            </form>
+            <Box>
+                <UploadError />
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={7}>
+                        <UploadText />
+                    </Grid>
+                    <Grid item xs={12} md={5}>
+                        <Card variant='outlined' sx={{ mb: 2, height: 240 }}>
+                            <CardContent>
+                                <Configuration />
+                                <form id="analysis-form" onSubmit={handleSubmit(onSubmit)}>
+                                    <FormProvider {...method}>
+                                        <ValueSetting />
+                                    </FormProvider>
+                                </form>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
+            </Box>
+            <FormProvider {...method}>
+                <GraphField />
+            </FormProvider>
+            <Grid container justifyContent={'flex-end'}>
+                <Grid item>
+                    <AnalysisButton />
+                </Grid>
+            </Grid>
         </div>
     )
 }

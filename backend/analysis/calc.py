@@ -1,6 +1,7 @@
 import re
 import numpy as np
 from itertools import combinations
+from .exceptions import AnalysisException
 
 
 class MeasurementFileParser:
@@ -17,7 +18,7 @@ class MeasurementFileParser:
         temperature = int(temperature_match.group(1)) if temperature_match else None
 
         if current is None or temperature is None:
-            raise Exception("File name is not correct")
+            raise AnalysisException("ファイル名に温度または電流が含まれていません。")
 
         return current, temperature
 
@@ -29,7 +30,7 @@ class MeasurementFileParser:
             try: 
                 dRdT, length = float(self.data["dRdT"]), float(self.data["length"])
             except ValueError:
-                raise Exception("dRdT or length is not a number")
+                raise AnalysisException("dRdTまたは試料長が数値ではありません。")
             
             start_point = self.data["graphs"][file_name].get("start", None)
             end_point = self.data["graphs"][file_name].get("end", None)
@@ -103,16 +104,7 @@ class ThermalConductivityCalculator:
         return np.abs(Im_kappa)
 
 
-class ThermalConductivityStats:
-    def __init__(self, dRdT, length, current, temprature, measurement_data):
-        self.tc_calc = ThermalConductivityCalculator(
-            dRdT=dRdT,
-            length=length,
-            current=current,
-            temprature=temprature,
-            measurement_data=measurement_data,
-        )
-
+class ThermalConductivityStats(ThermalConductivityCalculator):
     def _calcurate_stats(self, points, func) -> tuple[float, float]:
         """
         与えられた点のリストに対して指定された関数を適用し、その結果の統計値を計算する汎用関数。
@@ -147,10 +139,10 @@ class ThermalConductivityStats:
         start_points, end_points = self.slope_points(start_point, end_point)
         return self._calcurate_stats(
             points=zip(start_points, end_points),
-            func=lambda pair: self.tc_calc.thermal_conductivity(*pair),
+            func=lambda pair: self.thermal_conductivity(*pair),
         )
 
     def average_and_std_of_kappa_imaginary(self, points) -> tuple[float, float]:
         return self._calcurate_stats(
-            points=points, func=self.tc_calc.thermal_conductivity_imaginary
+            points=points, func=self.thermal_conductivity_imaginary
         )

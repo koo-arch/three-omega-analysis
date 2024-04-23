@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
 import { useFormContext } from 'react-hook-form';
-import { FormValues, SelectedPoints } from '../../features/analysis/analysis';
+import { FormValues } from '../../features/analysis/analysis';
+import { setSelectedPoints } from '../../redux/slices/selectedPointsSlice';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, ReferenceLine } from 'recharts';
 import { CategoricalChartState } from 'recharts/types/chart/generateCategoricalChart';
 
@@ -16,7 +18,8 @@ interface GraphProps {
 }
 
 const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
-    const [selectedPoints, setSelectedPoints] = useState<SelectedPoints>({} as SelectedPoints);
+    const dispatch = useAppDispatch();
+    const selectedPoints = useAppSelector(state => state.selectedPoints[graphName]) || { start: undefined, end: undefined }
 
     const { setValue, clearErrors } = useFormContext<FormValues>();
 
@@ -58,7 +61,7 @@ const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
                 [start, end] = [end, start];
             }
 
-            setSelectedPoints({ start: start, end: end });
+            dispatch(setSelectedPoints({ graphName, points: { start, end }}));
         }
     };
 
@@ -93,8 +96,8 @@ const Graph: React.FC<GraphProps> = ({ data, graphName }) => {
                     </YAxis>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="V3omega(V)" stroke="#8884d8" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="ImV3omega(V)" stroke="#82ca9d" />
+                    <Line type="monotone" dataKey="V3omega(V)" stroke="#8884d8" activeDot={{ r: 8 }} isAnimationActive={false} />
+                    <Line type="monotone" dataKey="ImV3omega(V)" stroke="#82ca9d" isAnimationActive={false} />
                     {selectedPoints.start && 
                         <ReferenceLine x={data[selectedPoints.start]["Heater_Freq(Hz)"]} stroke="red" />
         

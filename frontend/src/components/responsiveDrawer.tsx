@@ -42,11 +42,11 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ children }) => {
         }}>
             {/* ヘッダーコンポーネント */}
             <CssBaseline />
-            <AppBar
+            <AppBar 
                 position="fixed"
                 sx={{
-                    width: { md: `calc(100% - ${drawerWidth}px)` },
-                    ml: { md: `${drawerWidth}px` },
+                    backgroundColor: 'white',
+                    color: 'black',
                 }}
             >
                 <Toolbar>
@@ -56,7 +56,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ children }) => {
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerOpen}
-                        sx={{ mr: 2, display: { md: 'none' } }}
+                        sx={{ mr: 2 }}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -68,11 +68,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ children }) => {
                     <AccountButton />
                 </Toolbar>
             </AppBar>
-            <Box
-                component="nav"
-                sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-                aria-label="mailbox folders"
-            >
+            <Box component="nav">
                 {/* モバイル用ドロワー */}
                 <SwipeableDrawer
                     open={open}
@@ -83,28 +79,17 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = ({ children }) => {
                         keepMounted: true, // モバイルデバイスでのパフォーマンス向上のため
                     }}
                     sx={{
-                        display: { sm: 'block', md: 'none' },
+                        display: { sm: 'block' },
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     }}
                 >
                     <DrawerContent handleDrawerClose={handleDrawerClose} />
                 </SwipeableDrawer>
-                {/* デスクトップバージョンのドロワー */}
-                <Drawer
-                    variant="permanent"
-                    sx={{
-                        display: { xs: 'none', md: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                    }}
-                    open
-                >
-                    <DrawerContent handleDrawerClose={handleDrawerClose} />
-                </Drawer>
             </Box>
             {/* メインコンテンツ */}
             <Box
                 component="main"
-                sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
+                sx={{ flexGrow: 1, p: 3 }}
             >
                 <Toolbar />
                 {children}

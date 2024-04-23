@@ -5,6 +5,8 @@ interface UploadedDataState {
 }
 
 interface UploadedData {
+    id: number;
+    name: string;
     data: FileData;
 }
 
@@ -32,11 +34,16 @@ const uploadedDataSlice = createSlice({
         setUploadedData: (state, action: PayloadAction<UploadedData>) => {
             state.data = action.payload;
         },
+        updateFileData: (state, action: PayloadAction<FileData>) => {
+            if (state.data) {
+                state.data.data = action.payload;
+            }
+        },
         resetUploadedData: (state) => {
             state.data = null;
         }
     },
 });
 
-export const { setUploadedData, resetUploadedData } = uploadedDataSlice.actions;
+export const { setUploadedData, updateFileData, resetUploadedData } = uploadedDataSlice.actions;
 export default uploadedDataSlice.reducer;
