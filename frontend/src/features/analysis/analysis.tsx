@@ -3,14 +3,16 @@ import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
+import { clearUploadError } from '../../redux/slices/uploadErrorSlice';
 import ValueSetting from '../setting/valueSetting';
 import Configuration from '../setting/configuration';
 import UploadText from '../graph/uploadText';
 import GraphField from '../graph/graphField';
+import UploadError from './uploadErrors';
 import urls from '../../api/urls';
 import { downloadCSV, parseBlobToJson } from '../../utils/blob';
 import { useErrorMessage } from '../../hooks/utils/errorHandler';
-import { Box, Button, Grid, Card, CardContent } from '@mui/material';
+import { Box, Grid, Card, CardContent } from '@mui/material';
 import AnalysisButton from './analysisButton';
 
 
@@ -50,6 +52,7 @@ const Analysis : React.FC = () => {
                     message: "解析データを送信しました",
                     severity: "success"
                 }))
+                dispatch(clearUploadError());
             
             })
             .catch(err => {
@@ -74,6 +77,7 @@ const Analysis : React.FC = () => {
     return (
         <div>
             <Box>
+                <UploadError />
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={7}>
                         <UploadText />

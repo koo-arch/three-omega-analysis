@@ -3,12 +3,18 @@ import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
 import { useAppDispatch } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { setUploadedData } from '../../redux/slices/uploadedDataSlice';
+import { setUploadError } from '../../redux/slices/uploadErrorSlice';
+import { clearUploadError } from '../../redux/slices/uploadErrorSlice';
+import ErrorDisplay from '../../components/errorDisplay';
 import { useNavigate } from 'react-router-dom';
 import urls from '../../api/urls';
 import { useDropzone } from 'react-dropzone';
 import { Card, CardActionArea, CardContent, Box, Typography } from '@mui/material';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import ErrorIcon from '@mui/icons-material/Error';
+
+interface ErrorMessages {
+    [fileName: string]: string;
+}
 
 const UploadText: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -39,14 +45,16 @@ const UploadText: React.FC = () => {
                 message: 'アップロードに成功しました。'
             }));
             dispatch(setUploadedData(response.data));
+            dispatch(clearUploadError());
         } catch (error: any) {
             console.log(error);
-            const errorDetail = error.response?.data?.detail;
+            const errorRes = error.response?.data
+            dispatch(setUploadError(errorRes));
             
             dispatch(setSnackbar({
                 open: true,
                 severity: 'error',
-                message: errorDetail ? errorDetail : 'アップロードに失敗しました。'
+                message: 'アップロードに失敗しました。'
             }));
             
             if (error?.response?.status === 403) {
@@ -76,16 +84,22 @@ const UploadText: React.FC = () => {
         }
     });
 
-    const fileRejectionItems = fileRejections.map(({ file, errors }, index) => (
-        <div key={index}>
-            {errors.map(e => 
-                <div key={e.code} style={{ color: 'red' }}>
-                    <ErrorIcon style={{ fontSize: '1rem', verticalAlign: 'middle' }} />
-                    <span style={{ marginLeft: '0.5rem' }}>{file.name}は許可された拡張子ではありません</span>
-                </div>
-            )}
-        </div>
-    ));
+    const fileRejectionItems = fileRejections.map(({ file, errors }, index) => {
+        // エラーをファイル名をキーに持つオブジェクトに変換
+        const errorMessages: ErrorMessages = errors.reduce((acc: ErrorMessages, error) => {
+            acc[file.name] = 'txtファイルではありません'; // エラーメッセージをファイル名でマップ
+            return acc;
+        }, {});
+        return (
+            <div key={index}>
+                <ErrorDisplay
+                    errors={errorMessages}
+                />
+            </div>
+        );
+    });
+
+    
 
     return (
         <Box>

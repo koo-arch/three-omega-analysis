@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from './slices/authSlice';
 import snackbarReducer from './slices/snackbarSlice';
 import postFlagReducer from './slices/postFlagSlice';
+import uploadErrorReducer from './slices/uploadErrorSlice';
 import uploadedDataReducer from './slices/uploadedDataSlice';
 import selectedPointsReducer from './slices/selectedPointsSlice';
 import settingReducer from './slices/settingSlice';
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     snackbar: snackbarReducer,
     postFlag: postFlagReducer,
+    uploadError: uploadErrorReducer,
     uploadedData: uploadedDataReducer,
     selectedPoints: selectedPointsReducer,
     setting: settingReducer,
