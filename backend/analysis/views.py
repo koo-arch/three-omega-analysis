@@ -5,6 +5,7 @@ from .serializers import SettingSerializer, HistorySerializer
 from django.http import HttpResponse
 from rest_framework.response import Response
 from .calc import MeasurementFileParser, ThermalConductivityStats
+from .exceptions import AnalysisException
 import csv
 import codecs
 
@@ -51,15 +52,15 @@ class AnalysisView(generics.ListCreateAPIView):
         data = request.data
 
         if not file_data:
-            return Response({'detail': 'データがありません。'}, status=status.HTTP_400_BAD_REQUEST)
+            raise AnalysisException(detail="ファイルがアップロードされていません。")
 
         parser = MeasurementFileParser(data, file_data)
         experiment_data = parser.get_experiment_data()
         if parser.error_points:
             error_response = {}
             for name in parser.error_points:
-                error_response[f"graphs.{name}"] = f"{name}が未選択です"
-            return Response(error_response, status=status.HTTP_400_BAD_REQUEST)
+                error_response[f"graphs.{name}"] = "未選択です"
+            raise AnalysisException(detail=error_response)
 
         # HTTPレスポンスを作成し、CSVファイルとして返す
         response = HttpResponse(content_type="text/csv; charset=utf-8")
