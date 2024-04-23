@@ -3,6 +3,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import FileData
 from .serializers import FileDataSerializer
+from .parse_file import ParseTextFile
 from .exceptions import FileProcessingException
 
 
@@ -32,44 +33,29 @@ class FileProcessingView(generics.CreateAPIView):
             else {}
         )
 
-        defalut_columns = ["Current_Freq(Hz)", "Heater_Freq(Hz)", "Vomega(V)", "ImVomega(V)", "V3omega(V)", "ImV3omega(V)"]
+        file_parser = ParseTextFile(files, files_columns_data)
+        files_columns_data = file_parser.parse_text_file()
 
-        for file in files:
-            lines = file.read().decode('utf-8').splitlines()
+        # エラーがある場合はエラーレスポンスを返す
+        if file_parser.column_errors or file_parser.value_errors:
+            error_response = {}
+            
+            for name, errors in file_parser.column_errors.items():
+                if name not in error_response:
+                    error_response[name] = []
+                error_response[name].extend(errors) 
+            
+            for name, errors in file_parser.value_errors.items():
+                if name not in error_response:
+                    error_response[name] = []
+                error_response[name].extend(errors) 
 
-            start_processing = False
-            measurement_data = []
-            column_names = []
-
-            for line in lines:
-                measurement_data_point = {}
-
-                if start_processing:
-                    values = line.strip().split()
-                    # 測定データを列ごとに分割してmeasurement_dataに追加
-                    if len(values) > 1:
-                        for i, column in enumerate(column_names):
-                            try:
-                                measurement_data_point[column] = float(values[i])
-                            except ValueError:
-                                raise FileProcessingException(detail='ファイルのデータが不正です。')
-                        measurement_data.append(measurement_data_point)
-
-                # Coulmns>> からデータ処理を開始する
-                elif line.startswith('Columns>>'):
-                    columns = line.split('Columns>> ')[1].strip().split()
-                    for column in columns:
-                        column_names.append(column)
-                    if column_names != defalut_columns:
-                        raise FileProcessingException(detail='ファイルの列名が不正です。')
-                    start_processing = True
-
-            file_name = file.name.split('.')[0]
-            files_columns_data[file_name] = measurement_data
+            if error_response:
+                raise FileProcessingException(detail=error_response)
 
         register_data = {
             "user": request.user.id,
-            "name": file_name,
+            "name": "graph_data",
             "data": files_columns_data
         }
 
