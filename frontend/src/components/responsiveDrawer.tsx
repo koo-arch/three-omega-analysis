@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFetchUserInfo } from '../hooks/auth/useFetchUserInfo';
+import { useFetchUserInfo } from '@/hooks/auth/useFetchUserInfo';
 import AccountButton from './accountButton';
 import {
     CssBaseline,

@@ -1,8 +1,8 @@
 import { useCookies } from 'react-cookie';
-import { useAppDispatch } from '../redux/reduxHooks';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import axios from '../../api/axios';
-import urls from '../../api/urls';
+import { useAppDispatch } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import axios from '@/api/axios';
+import urls from '@/api/urls';
 import { useLogout } from './useLogout';
 
 export const useRefreshToken = ():() => Promise<string | null> => {

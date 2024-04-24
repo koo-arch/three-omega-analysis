@@ -1,11 +1,11 @@
 import React from 'react';
-import axios from '../api/axios';
+import axios from '@/api/axios';
 import { useCookies } from 'react-cookie';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
-import urls from '../api/urls';
-import CustomSnackbar from '../components/customSnackbar';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
+import urls from '@/api/urls';
+import CustomSnackbar from '@/components/customSnackbar';
 import {
     Button,
     Box,
@@ -16,10 +16,10 @@ import {
     Avatar,
     Grid,
 } from "@mui/material";
-import CustomLink from '../components/customLink';
+import CustomLink from '@/components/customLink';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PasswordField from '../components/passwordField';
-import { useLoginErrorMessage } from '../hooks/utils/errorHandler';
+import PasswordField from '@/components/passwordField';
+import { useLoginErrorMessage } from '@/hooks/utils/errorHandler';
 
 interface LoginData {
     email: string;

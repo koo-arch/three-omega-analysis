@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { useAuthAxios } from '../auth/useAuthAxios';
-import { useAppDispatch } from '../redux/reduxHooks';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
+import { useAppDispatch } from '@/hooks/redux/reduxHooks';
 import { useCookies } from 'react-cookie';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { setUploadedData } from '../../redux/slices/uploadedDataSlice';
-import urls from '../../api/urls';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { setUploadedData } from '@/redux/slices/uploadedDataSlice';
+import urls from '@/api/urls';
 
 export const useFetchFileData = () : void => {
     const [cookies, ] = useCookies(['accesstoken', 'refreshtoken']);

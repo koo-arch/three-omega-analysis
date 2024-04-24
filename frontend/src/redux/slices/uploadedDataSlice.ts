@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FileData } from '../../types/features/analysis';
+import { FileData } from '@/types/features/analysis';
 
 interface UploadedDataState {
     data: UploadedData | null;

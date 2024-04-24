@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
 import { useFormContext } from 'react-hook-form';
-import { AnalysisForm } from '../../../../types/features/analysis';
-import { setSelectedPoints } from '../../../../redux/slices/selectedPointsSlice';
+import { AnalysisForm } from '@/types/features/analysis';
+import { setSelectedPoints } from '@/redux/slices/selectedPointsSlice';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label, ReferenceLine } from 'recharts';
 import { CategoricalChartState } from 'recharts/types/chart/generateCategoricalChart';
 

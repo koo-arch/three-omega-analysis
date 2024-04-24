@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '../hooks/redux/reduxHooks';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
 import { Link, useLocation } from 'react-router-dom';
-import { useLogout } from '../hooks/auth/useLogout';
+import { useLogout } from '@/hooks/auth/useLogout';
 import { IconButton, Menu, MenuItem, Button } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 

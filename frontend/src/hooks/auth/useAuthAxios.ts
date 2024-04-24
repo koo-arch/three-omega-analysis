@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { axiosConfig } from '../../api/axios';
+import { axiosConfig } from '@/api/axios';
 import axios, { AxiosInstance } from 'axios';
 import { useRefreshToken } from './useRefreshToken';
 

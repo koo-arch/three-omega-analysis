@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppSelector } from '../hooks/redux/reduxHooks';
-import CustomSnackbar from '../components/customSnackbar';
-import Analysis from '../features/analysis/analysis';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
+import CustomSnackbar from '@/components/customSnackbar';
+import Analysis from '@/features/analysis/analysis';
 import { Container, Typography } from '@mui/material';
 
 

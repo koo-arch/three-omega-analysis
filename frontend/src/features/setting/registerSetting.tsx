@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { setPostFlag } from '../../redux/slices/postFlagSlice';
-import urls from '../../api/urls';
-import FormDialog from '../../components/formDialog';
-import { useErrorMessage } from '../../hooks/utils/errorHandler';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { setPostFlag } from '@/redux/slices/postFlagSlice';
+import urls from '@/api/urls';
+import FormDialog from '@/components/formDialog';
+import { useErrorMessage } from '@/hooks/utils/errorHandler';
 import { TextField, Button, Grid } from '@mui/material';
 
 interface SettingForm {

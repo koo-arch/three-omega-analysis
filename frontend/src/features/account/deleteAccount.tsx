@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
-import { useAppDispatch } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { useLogout } from '../../hooks/auth/useLogout';
-import urls from '../../api/urls';
-import FormDialog from '../../components/formDialog';
-import PasswordField from '../../components/passwordField';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
+import { useAppDispatch } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { useLogout } from '@/hooks/auth/useLogout';
+import urls from '@/api/urls';
+import FormDialog from '@/components/formDialog';
+import PasswordField from '@/components/passwordField';
 import { Button, Container, DialogContentText, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useErrorMessage } from '../../hooks/utils/errorHandler';
+import { useErrorMessage } from '@/hooks/utils/errorHandler';
 
 interface DeleteAccountData {
     current_password: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppSelector } from '../../../../hooks/redux/reduxHooks';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
 import Carousel from 'react-material-ui-carousel';
 import GraphDisplay from './graphDisplay';
 import { Card, CardContent } from '@mui/material';

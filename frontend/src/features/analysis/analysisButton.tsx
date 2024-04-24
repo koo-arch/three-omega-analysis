@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '../../hooks/redux/reduxHooks';
-import { isDataExist } from '../../utils/uploadFile';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
+import { isDataExist } from '@/utils/uploadFile';
 import { Box, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import StartIcon from '@mui/icons-material/StartOutlined';

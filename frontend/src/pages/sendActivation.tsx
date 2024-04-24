@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomLink from '../components/customLink';
+import CustomLink from '@/components/customLink';
 import { Typography } from '@mui/material';
 
 const SendActivation: React.FC = () => {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SelectedPoints } from '../../types/features/graph';
+import { SelectedPoints } from '@/types/features/graph';
 
 interface SelectedPointsState {
     [graphName: string]: SelectedPoints;
