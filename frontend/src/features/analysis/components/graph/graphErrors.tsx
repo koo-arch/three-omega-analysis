@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { AnalysisForm } from '../../types/features/analysis';
-import ErrorDisplay from '../../components/errorDisplay';
+import { AnalysisForm } from '../../../../types/features/analysis';
+import ErrorDisplay from '../../../../components/errorDisplay';
 
 const GraphErrors: React.FC = () => {
     const { formState: { errors }} = useFormContext<AnalysisForm>();

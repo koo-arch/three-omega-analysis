@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useWatch, useFormContext } from 'react-hook-form';
-import { AnalysisForm } from '../../types/features/analysis';
-import { useAppSelector } from '../../hooks/redux/reduxHooks';
-import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
-import DropdownSelect from '../../components/dropdownSelect';
+import { AnalysisForm } from '../../../types/features/analysis';
+import { useAppSelector } from '../../../hooks/redux/reduxHooks';
+import { useFetchSetting } from '../../../hooks/analysis/useFetchSetting';
+import DropdownSelect from '../../../components/dropdownSelect';
 import { TextField, Grid, FormControl, Container } from '@mui/material';
 
 const ValueSetting: React.FC = () => {

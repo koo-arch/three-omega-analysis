@@ -1,6 +1,6 @@
 import React from 'react';
-import { useAppSelector } from '../../hooks/redux/reduxHooks';
-import RegisterSetting from './registerSetting';
+import { useAppSelector } from '../../../hooks/redux/reduxHooks';
+import RegisterSetting from '../../setting/registerSetting';
 import { Grid, Container, Typography } from '@mui/material';
 
 const Configuration: React.FC = () => {
