@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SelectedPoints } from '../../types/features/graph';
 
 interface SelectedPointsState {
     [graphName: string]: SelectedPoints;
-}
-
-interface SelectedPoints {
-    start: number | undefined;
-    end: number | undefined;
 }
 
 interface GraphPoints {

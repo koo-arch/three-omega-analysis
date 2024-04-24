@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
 import { setSnackbar } from '../../redux/slices/snackbarSlice';
 import { updateFileData } from '../../redux/slices/uploadedDataSlice';
 import { useFormContext } from 'react-hook-form';
-import { FormValues } from '../analysis/analysis';
+import { AnalysisForm } from '../../types/features/analysis';
 import urls from '../../api/urls';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const GraphClearButton: React.FC = () => {
     const authAxios = useAuthAxios();
     const dispatch = useAppDispatch();
-    const { unregister } = useFormContext<FormValues>();
+    const { unregister } = useFormContext<AnalysisForm>();
     const fileDataRow = useAppSelector(state => state.uploadedData.data);
     const id = fileDataRow?.id;
 
