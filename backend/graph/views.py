@@ -26,10 +26,10 @@ class FileProcessingView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):    
         files = request.FILES.getlist('files')
-
+        queryset = self.get_queryset()
         files_columns_data = (
-            self.get_queryset().values("data").first().get("data", {})
-            if self.get_queryset().exists()
+            queryset.values("data").first().get("data", {})
+            if queryset.exists()
             else {}
         )
 
@@ -37,21 +37,9 @@ class FileProcessingView(generics.CreateAPIView):
         files_columns_data = file_parser.parse_text_file()
 
         # エラーがある場合はエラーレスポンスを返す
-        if file_parser.column_errors or file_parser.value_errors:
-            error_response = {}
-            
-            for name, errors in file_parser.column_errors.items():
-                if name not in error_response:
-                    error_response[name] = []
-                error_response[name].extend(errors) 
-            
-            for name, errors in file_parser.value_errors.items():
-                if name not in error_response:
-                    error_response[name] = []
-                error_response[name].extend(errors) 
-
-            if error_response:
-                raise FileProcessingException(detail=error_response)
+        error_response = file_parser.parse_errors()
+        if error_response:
+            raise FileProcessingException(detail=error_response)
 
         register_data = {
             "user": request.user.id,
@@ -99,11 +87,12 @@ class GraphDataClearView(generics.UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         file_name = request.data.get('file_name')
-        file_data = self.get_object().data
+        obj = self.get_object()
+        file_data = obj.data
 
         if file_name in file_data:
             del file_data[file_name]
-            self.get_queryset().update(data=file_data)
-            return Response({'detail': 'ファイルを削除しました'}, status=status.HTTP_200_OK)
+            obj.save()
+            return Response({'detail': 'ファイルを削除しました'}, status=status.HTTP_204_NO_CONTENT)
 
         return Response({'detail': 'ファイルが見つかりません'}, status=status.HTTP_400_BAD_REQUEST)

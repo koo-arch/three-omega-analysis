@@ -20,6 +20,22 @@ class ParseTextFile:
         if file_name not in error_dict:
             error_dict[file_name] = []
         error_dict[file_name].append(message)
+    
+
+    def set_errors(self, error_response, error_dict) -> None:
+        for name, errors in error_dict.items():
+            if name not in error_response:
+                error_response[name] = []
+            error_response[name].extend(errors)
+    
+
+    def parse_errors(self) -> dict:
+        if self.value_errors or self.column_errors:
+            error_response = {}
+            self.set_errors(error_response, self.column_errors)
+            self.set_errors(error_response, self.value_errors)
+
+            return error_response
 
 
     def process_measurement_data(self, values, columns_name, index, file) -> None:
@@ -45,15 +61,13 @@ class ParseTextFile:
 
             start_processing = False
             measurement_data = []
-            columns_name = []
 
             for index, line in enumerate(lines, 1):
 
                 # Coulmns>> からデータ処理を開始する
                 if line.startswith("Columns>>"):
                     columns = line.split("Columns>> ")[1].strip().split()
-                    for column in columns:
-                        columns_name.append(column)
+                    columns_name = [column for column in columns]
 
                     if not self.validate_columns(columns_name):
                         self.add_error(column_errors, file.name, "Columns>> で指定された列名が不正です。")
