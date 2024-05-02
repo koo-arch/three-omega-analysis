@@ -1,49 +1,34 @@
 import React from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
-import { useAppDispatch } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { clearUploadError } from '../../redux/slices/uploadErrorSlice';
-import ValueSetting from '../setting/valueSetting';
-import Configuration from '../setting/configuration';
-import UploadText from '../graph/uploadText';
-import GraphField from '../graph/graphField';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
+import { useAppDispatch } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { clearUploadError } from '@/redux/slices/uploadErrorSlice';
+import ValueSetting from './components/valueSetting';
+import Configuration from './components/configuration';
+import UploadText from './uploadText';
+import GraphField from './components/graphField';
 import UploadError from './uploadErrors';
-import urls from '../../api/urls';
-import { downloadCSV, parseBlobToJson } from '../../utils/blob';
-import { useErrorMessage } from '../../hooks/utils/errorHandler';
+import { AnalysisForm } from '@/types/features/analysis';
+import urls from '@/api/urls';
+import { downloadCSV, parseBlobToJson } from '@/utils/blob';
+import { useErrorMessage } from '@/hooks/utils/errorHandler';
 import { Box, Grid, Card, CardContent } from '@mui/material';
 import AnalysisButton from './analysisButton';
 
 
-export interface SelectedPoints {
-    start: number | undefined;
-    end: number | undefined;
-}
-
-interface GraphValues {
-    [graphName: string]: SelectedPoints;
-}
-
-export interface FormValues {
-    dRdT: number | undefined;
-    length: number | undefined;
-    graphs: GraphValues;
-}
-
-
 const Analysis : React.FC = () => {
     const authAxios = useAuthAxios();
-    const method = useForm<FormValues>();
+    const method = useForm<AnalysisForm>();
     const { handleSubmit, setError } = method;
     const dispatch = useAppDispatch();
-    const errorMessage = useErrorMessage<FormValues>();
+    const errorMessage = useErrorMessage<AnalysisForm>();
 
-    const postAnalysisData = async (data: FormValues) => {
+    const postAnalysisData = async (data: AnalysisForm) => {
         return await authAxios.post(urls.Analysis, data, { responseType: 'blob' });
     }
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const onSubmit: SubmitHandler<AnalysisForm> = (data) => {
         postAnalysisData(data)
             .then(res => {
                 downloadCSV('analysis', res.data)

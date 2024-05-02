@@ -1,6 +1,6 @@
-import { useAppDispatch } from "../redux/reduxHooks";
+import { useAppDispatch } from '@/hooks/redux/reduxHooks';
 import { UseFormSetError, FieldValues, Path } from "react-hook-form";
-import { setSnackbar } from "../../redux/slices/snackbarSlice";
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
 
 interface ErrorResponse {
     [key: string]: string[]

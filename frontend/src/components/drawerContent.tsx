@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAppSelector } from '../hooks/redux/reduxHooks';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
 import { Link } from 'react-router-dom';
 import {
     List,

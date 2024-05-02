@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAppSelector } from '../../hooks/redux/reduxHooks';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
 import Carousel from 'react-material-ui-carousel';
-import Graph from './graph';
+import GraphDisplay from './graphDisplay';
 import { Card, CardContent } from '@mui/material';
 
 interface Props {
@@ -23,7 +23,7 @@ const GraphCarousel: React.FC<Props> = ({ activeIndex, onIndexChange }) => {
                     {uploadedData &&
                         Object.entries(uploadedData.data).map(([fileName, measurementData]) => {
                             return (
-                                <Graph key={fileName} graphName={fileName} data={measurementData} />
+                                <GraphDisplay key={fileName} graphName={fileName} data={measurementData} />
                             )
                         })
                     }

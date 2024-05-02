@@ -1,12 +1,12 @@
 import React from 'react';
-import axios from '../api/axios';
+import axios from '@/api/axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
-import { setSnackbar } from '../redux/slices/snackbarSlice';
-import PasswordField from '../components/passwordField';
-import urls from '../api/urls';
-import CustomSnackbar from '../components/customSnackbar';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import PasswordField from '@/components/passwordField';
+import urls from '@/api/urls';
+import CustomSnackbar from '@/components/customSnackbar';
 import {
     Button,
     Box,
@@ -17,9 +17,9 @@ import {
     Avatar,
     Grid,
 } from "@mui/material";
-import CustomLink from '../components/customLink';
+import CustomLink from '@/components/customLink';
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
-import { useErrorMessage } from '../hooks/utils/errorHandler';
+import { useErrorMessage } from '@/hooks/utils/errorHandler';
 
 interface RegisterData {
     email: string;

@@ -1,8 +1,8 @@
 import React from 'react';
-import ChangePassword from '../features/account/changePassword';
-import DeleteAccount from '../features/account/deleteAccount';
-import { useAppSelector } from '../hooks/redux/reduxHooks';
-import CustomSnackbar from '../components/customSnackbar';
+import ChangePassword from '@/features/account/changePassword';
+import DeleteAccount from '@/features/account/deleteAccount';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
+import CustomSnackbar from '@/components/customSnackbar';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
     Container,

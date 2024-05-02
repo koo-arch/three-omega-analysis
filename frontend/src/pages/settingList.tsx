@@ -1,10 +1,10 @@
 import React from 'react';
-import { useAppSelector } from '../hooks/redux/reduxHooks';
-import { useFetchSetting } from '../hooks/analysis/useFetchSetting';
-import CustomSnackbar from '../components/customSnackbar';
-import Loading from '../components/loading';
-import UpdateSetting from '../features/setting/updateSetting';
-import DeleteSetting from '../features/setting/deleteSetting';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
+import { useFetchSetting } from '@/hooks/analysis/useFetchSetting';
+import CustomSnackbar from '@/components/customSnackbar';
+import Loading from '@/components/loading';
+import UpdateSetting from '@/features/setting/updateSetting';
+import DeleteSetting from '@/features/setting/deleteSetting';
 import {
     Box,
     Typography,

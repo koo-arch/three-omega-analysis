@@ -1,11 +1,11 @@
 import React from 'react';
-import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { updateFileData } from '../../redux/slices/uploadedDataSlice';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { updateFileData } from '@/redux/slices/uploadedDataSlice';
 import { useFormContext } from 'react-hook-form';
-import { FormValues } from '../analysis/analysis';
-import urls from '../../api/urls';
+import { AnalysisForm } from '@/types/features/analysis';
+import urls from '@/api/urls';
 import {
     Box,
     List,
@@ -25,7 +25,7 @@ interface GraphListProps {
 const GraphList: React.FC<GraphListProps> = ({ activeIndex, onListItemClick }) => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
-    const { unregister } = useFormContext<FormValues>();
+    const { unregister } = useFormContext<AnalysisForm>();
     const fileDataRow = useAppSelector(state => state.uploadedData.data);
     const uploadedData = fileDataRow?.data;
     const id = fileDataRow?.id;

@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import Snackbar from '@mui/material/Snackbar';
-import { useAppDispatch } from '../hooks/redux/reduxHooks';
-import { setSnackbar } from '../redux/slices/snackbarSlice';
+import { useAppDispatch } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {

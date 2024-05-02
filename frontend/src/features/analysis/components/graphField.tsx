@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '../../hooks/redux/reduxHooks';
-import { useFetchFileData } from '../../hooks/analysis/useFetchFileData';
-import GraphErrors from './graphErrors';
-import GraphCarousel from './graphCarousel';
-import GraphList from './graphList';
-import GraphClearButton from './graphClearButton';
-import { isDataExist } from '../../utils/uploadFile';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
+import { useFetchFileData } from '@/hooks/analysis/useFetchFileData';
+import GraphErrors from './graph/graphErrors';
+import GraphCarousel from './graph/graphCarousel';
+import GraphList from './graph/graphList';
+import GraphClearButton from './graph/graphClearButton';
+import { isDataExist } from '@/utils/uploadFile';
 import { Container, Typography, Grid } from '@mui/material';
 
 const GraphField: React.FC = () => {

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { useAuthAxios } from '../auth/useAuthAxios';
-import { useAppDispatch, useAppSelector } from '../redux/reduxHooks';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { fetchSettingSuccess } from '../../redux/slices/settingSlice';
-import urls from '../../api/urls';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { fetchSettingSuccess } from '@/redux/slices/settingSlice';
+import urls from '@/api/urls';
 
 export const useFetchSetting = (): void => {
     const [cookies, ] = useCookies(['accesstoken', 'refreshtoken']);

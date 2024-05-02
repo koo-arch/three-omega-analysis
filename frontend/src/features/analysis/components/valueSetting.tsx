@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useWatch, useFormContext } from 'react-hook-form';
-import { FormValues } from '../../features/analysis/analysis';
-import { useAppSelector } from '../../hooks/redux/reduxHooks';
-import { useFetchSetting } from '../../hooks/analysis/useFetchSetting';
-import DropdownSelect from '../../components/dropdownSelect';
+import { AnalysisForm } from '@/types/features/analysis';
+import { useAppSelector } from '@/hooks/redux/reduxHooks';
+import { useFetchSetting } from '@/hooks/analysis/useFetchSetting';
+import DropdownSelect from '@/components/dropdownSelect';
 import { TextField, Grid, FormControl, Container } from '@mui/material';
 
 const ValueSetting: React.FC = () => {
@@ -14,7 +14,7 @@ const ValueSetting: React.FC = () => {
     const names = [...new Set(setting?.map(item => item.name))];
     const [selectedName, setSelectedName] = useState<string>("");
     const selectedObj = setting?.find(item => item.name === selectedName);
-    const { register, setValue, formState: { errors } } = useFormContext<FormValues>();
+    const { register, setValue, formState: { errors } } = useFormContext<AnalysisForm>();
 
     const dRdTWatched = useWatch({ name: "dRdT"});
     const lengthWatched = useWatch({ name: "length"});

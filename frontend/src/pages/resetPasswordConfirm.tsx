@@ -1,12 +1,12 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAuthAxios } from '../hooks/auth/useAuthAxios';
-import { useAppDispatch, useAppSelector } from '../hooks/redux/reduxHooks';
-import { setSnackbar } from '../redux/slices/snackbarSlice';
-import CustomSnackbar from '../components/customSnackbar';
-import PasswordField from '../components/passwordField';
-import urls from '../api/urls';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import CustomSnackbar from '@/components/customSnackbar';
+import PasswordField from '@/components/passwordField';
+import urls from '@/api/urls';
 import {
     Button,
     Box,

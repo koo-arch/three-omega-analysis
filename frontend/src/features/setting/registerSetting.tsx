@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { setPostFlag } from '../../redux/slices/postFlagSlice';
-import urls from '../../api/urls';
-import FormDialog from '../../components/formDialog';
-import { useErrorMessage } from '../../hooks/utils/errorHandler';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { setPostFlag } from '@/redux/slices/postFlagSlice';
+import urls from '@/api/urls';
+import FormDialog from '@/components/formDialog';
+import { useErrorMessage } from '@/hooks/utils/errorHandler';
 import { TextField, Button, Grid } from '@mui/material';
 
-interface FormValues {
+interface SettingForm {
     name: string;
     dRdT: number;
     length: number;
@@ -18,19 +18,19 @@ interface FormValues {
 const RegisterSetting: React.FC = () => {
     const dispatch = useAppDispatch();
     const authAxios = useAuthAxios();
-    const { register, handleSubmit, clearErrors, setError, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, clearErrors, setError, formState: { errors } } = useForm<SettingForm>();
     const [open, setOpen] = useState(false);
     const postFlag = useAppSelector(state => state.postFlag.flag);
-    const errorMessage = useErrorMessage<FormValues>();
+    const errorMessage = useErrorMessage<SettingForm>();
 
     const openDialog = () => setOpen(true);
     const closeDialog = () => setOpen(false);
 
-    const postSetting = async (data: FormValues) => {
+    const postSetting = async (data: SettingForm) => {
         return await authAxios.post(urls.Setting, data);
     }
 
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
+    const onSubmit: SubmitHandler<SettingForm> = (data) => {
         clearErrors();
         postSetting(data)
             .then(res => {

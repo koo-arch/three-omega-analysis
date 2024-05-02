@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { FileData } from '@/types/features/analysis';
 
 interface UploadedDataState {
     data: UploadedData | null;
@@ -8,19 +9,6 @@ interface UploadedData {
     id: number;
     name: string;
     data: FileData;
-}
-
-interface FileData {
-    [fileName: string]: MeasurementData[]
-}
-
-interface MeasurementData {
-    "Current_Freq(Hz)": number;
-    "Heater_Freq(Hz)": number;
-    "Vomega(V)": number;
-    "ImVomega(V)": number;
-    "V3omega(V)": number;
-    "ImV3omega(V)": number;
 }
 
 const initialState: UploadedDataState = {

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useAuthAxios } from '../../hooks/auth/useAuthAxios';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux/reduxHooks';
+import { useAuthAxios } from '@/hooks/auth/useAuthAxios';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux/reduxHooks';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { setSnackbar } from '../../redux/slices/snackbarSlice';
-import { setPostFlag } from '../../redux/slices/postFlagSlice';
-import FormDialog from '../../components/formDialog';
-import { useErrorMessage } from '../../hooks/utils/errorHandler';
-import urls from '../../api/urls';
+import { setSnackbar } from '@/redux/slices/snackbarSlice';
+import { setPostFlag } from '@/redux/slices/postFlagSlice';
+import FormDialog from '@/components/formDialog';
+import { useErrorMessage } from '@/hooks/utils/errorHandler';
+import urls from '@/api/urls';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, DialogContentText } from '@mui/material';
 
